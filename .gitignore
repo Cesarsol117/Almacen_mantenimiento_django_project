@@ -1,0 +1,32 @@
+# Entorno virtual
+env/
+
+# Archivos de configuración de entorno
+.env
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de bases de datos locales
+db.sqlite3
+
+# Archivos de migración de Django
+*.pyc
+*.log
+*.pot
+*.mo
+*.env
+*.sqlite3
+*.pyc
+
+# Archivos específicos de sistemas operativos
+.DS_Store
+Thumbs.db
+
+# Archivos creados por IDEs/editores
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace

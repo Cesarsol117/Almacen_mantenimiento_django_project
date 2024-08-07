@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 
 def pagina_inicio(request):
-    return HttpResponse('pagina inicio')
+    return render(request, 'inicio.html')
 
 def curso(request):
     curso = Curso(nombre = 'Python', numero_curso = 1234)
@@ -14,4 +14,4 @@ def curso(request):
     return   HttpResponse(cadena_texto)
 
 def pagina_cursos(request):
-    return HttpResponse('pagina cursos')
+    return render(request, 'cursos.html')

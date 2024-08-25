@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Manin</title>
+</head>
+<!-- este es la palntailla para los css y js para el front -->
+<body>
+    <header>
+        <h1>yo soy el main</h1>
+        {% block principal %}
+    
+      
+        {% endblock principal %}
+    </header>
+    <div>
+        <div>
+            <h2>aqui va un div</h2>    
+        </div>
+        <div>
+            <h1>pagina de insumos</h1>
+            <h2>Hola Cesar, bienvenido de nuevo</h2>
+            <a class="btn btn-primary" href="{% url 'page_courses' %}">cursos</a>
+            <a class="btn btn-primary" href="{% url 'home' %}">home</a>
+        
+        </div>
+        {% block contenido1 %}
+    
+      
+        {% endblock contenido1 %}
+    </div>
+
+
+
+    
+</body>
+</html>

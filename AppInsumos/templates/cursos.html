@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="d-grid gap-2">
-        <button
-            type="button"
-            name=""
-            id=""
-            class="btn btn-primary"
-        >
-            Button
-        </button>
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Esto es cursos</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div>
+        <ul>
+            
+            <li>curso 1</li>
+            <li>1</li>
+            <li>1</li>
+        </ul>
     </div>
-    
-    <h1>pagina de cursos</h1>
-    
-</body>
-</html>
+{% endblock contenido1 %}

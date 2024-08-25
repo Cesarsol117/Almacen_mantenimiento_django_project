@@ -19,7 +19,7 @@ from AppInsumos.views import *
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', pagina_inicio),
-    path('curso/', curso),
-    path('pagina_cursos/', pagina_cursos),
+    path('', pagina_inicio, name='home'),
+    path('curso/', curso, name='courses'),
+    path('pagina_cursos/', pagina_cursos, name='page_courses'),
 ]

@@ -22,4 +22,6 @@ urlpatterns = [
     path('', pagina_inicio, name='home'),
     path('curso/', curso, name='courses'),
     path('pagina_cursos/', pagina_cursos, name='page_courses'),
+    path('FormularioCursos/', curso_formulario, name='formulario_curso'),
+    
 ]

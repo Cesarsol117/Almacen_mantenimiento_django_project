@@ -7,4 +7,4 @@ class Curso(models.Model):
     numero_curso = models.IntegerField()
     
     def __str__(self) -> str:
-        return self.nombre +" "+str(self.numero_curso)
+        return self.nombre +" "+str(self.numero_curso) 

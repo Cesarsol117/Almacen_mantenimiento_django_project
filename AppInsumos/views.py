@@ -15,3 +15,7 @@ def curso(request):
 
 def pagina_cursos(request):
     return render(request, 'cursos.html')
+
+# Creacion del formulario
+def curso_formulario(request):
+    return render(request, "cursoFormulario.html")

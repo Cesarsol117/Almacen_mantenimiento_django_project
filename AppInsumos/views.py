@@ -18,4 +18,8 @@ def pagina_cursos(request):
 
 # Creacion del formulario
 def curso_formulario(request):
+    if request.method=='POST':
+        nuevo_curso = Curso(nombre = request.POST['curso'], numero_curso = request.POST['comision'])
+        nuevo_curso.save()
+        return render(request, 'inicio.html')
     return render(request, "cursoFormulario.html")

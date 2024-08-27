@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Curso
 from django.http import HttpResponse
+from AppInsumos.forms import InsumoForm
 # Create your views here.
 
 
@@ -18,8 +19,16 @@ def pagina_cursos(request):
 
 # Creacion del formulario
 def curso_formulario(request):
+    
     if request.method=='POST':
-        nuevo_curso = Curso(nombre = request.POST['curso'], numero_curso = request.POST['comision'])
-        nuevo_curso.save()
-        return render(request, 'inicio.html')
-    return render(request, "cursoFormulario.html")
+        full_form = InsumoForm(request.POST)
+        if full_form.is_valid():
+            data_form = full_form.cleaned_data
+            
+            nuevo_curso = Curso(nombre = data_form['nombre'], numero_curso = data_form['numero_curso'])##estos datos deben ser iguales a los que se coloquen  en el forms.py
+            nuevo_curso.save()
+            return render(request, 'inicio.html', {'mensaje':'se guardo correctamente'})
+    else:
+        empty_form = InsumoForm()
+    
+    return render(request, "cursoFormulario.html", {'vacio_form':empty_form})

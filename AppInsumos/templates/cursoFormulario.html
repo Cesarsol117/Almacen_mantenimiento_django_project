@@ -9,8 +9,10 @@
         <h2>Formulario</h2>
         <form action="{% url 'formulario_curso' %}" method="POST">
             {% csrf_token %}
-            <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
-            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p>
+            <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
+            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            {{ vacio_form.as_p }}
+
             <input type="submit" value="Enviar" pla>
             
 

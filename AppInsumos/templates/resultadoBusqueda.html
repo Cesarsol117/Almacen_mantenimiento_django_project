@@ -1,0 +1,26 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Busqueda insumos</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div class="box-formulario">
+        {% if insumos_buscado %}
+            {% for insumo in insumos_buscado  %}
+                <ul>
+                    <li>
+                        <tr>{{ insumo.numero_curso }}</tr>
+                        
+                        <tr>{{ insumo.nombre}}</tr>
+                    </li>
+
+                </ul>
+            {% endfor %}
+          
+        {% else %}
+            <p>No hay resultados...</p>
+        
+        {% endif %}
+    </div>
+{% endblock contenido1 %}

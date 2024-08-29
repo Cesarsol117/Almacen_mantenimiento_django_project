@@ -1,0 +1,15 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Busqueda insumos</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div class="box-formulario">
+        <form action="{% url 'formulario_busqueda' %}" method="GET">
+            <input type="number" name="comision" id="comision" placeholder="numero de insumo">
+            <input type="submit" value="Buscar">
+        </form>
+        <p>{{ mensaje }}</p>
+    </div>
+{% endblock contenido1 %}

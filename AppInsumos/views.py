@@ -32,3 +32,15 @@ def curso_formulario(request):
         empty_form = InsumoForm()
     
     return render(request, "cursoFormulario.html", {'vacio_form':empty_form})
+# busqueda o ver
+def busqueda_insumo(request):
+    
+    return render(request, "busquedaInsumos.html")
+def busqueda_formulario(request):
+    if request.GET['comision']:
+        comision = request.GET['comision']
+        insumos_buscado = Curso.objects.filter(numero_curso = comision )
+        return render(request, 'resultadoBusqueda.html', {'insumos_buscado':insumos_buscado})
+    else:
+        return render(request, 'busquedaInsumos.html', {'mensaje':'Coloca un número...'})
+    

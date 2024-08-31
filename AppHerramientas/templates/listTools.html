@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Herramientas</h1>
+{% endblock %}
+{% block contenido1 %}
+    {% for tools in all_tools  %}
+    <ul>
+        <li>
+            <tr>{{ tools.nombre_herramienta }}</tr>
+            
+            <tr>{{ tools.cantidad}}</tr>
+        </li>
+
+    </ul>
+    {% endfor %}
+{% endblock contenido1 %}

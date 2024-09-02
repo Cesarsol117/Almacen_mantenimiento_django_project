@@ -17,7 +17,7 @@ def curso(request):
 def pagina_cursos(request):
     return render(request, 'cursos.html')
 
-# Creacion del formulario
+# Creacion del formulario y create
 def curso_formulario(request):
     
     if request.method=='POST':
@@ -32,6 +32,7 @@ def curso_formulario(request):
         empty_form = InsumoForm()
     
     return render(request, "cursoFormulario.html", {'vacio_form':empty_form})
+
 # busqueda o ver
 def busqueda_insumo(request):
     

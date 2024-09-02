@@ -5,14 +5,27 @@
     <h1>Herramientas</h1>
 {% endblock %}
 {% block contenido1 %}
-    {% for tools in all_tools  %}
-    <ul>
-        <li>
-            <tr>{{ tools.nombre_herramienta }}</tr>
-            
-            <tr>{{ tools.cantidad}}</tr>
-        </li>
+<div class = "tabla_div">
+    <table class="table table-bordered border-primary">
+        <thead>
+        <tr>
+            <th scope="col">Nombre Herramientas</th>
+            <th scope="col">Cantidad</th>
 
-    </ul>
-    {% endfor %}
+        </tr>
+        </thead>
+
+        
+        <tbody>
+            {% for tools in all_tools  %}
+            <tr>
+                
+                <td>{{ tools.nombre_herramienta }}</td> 
+                <td>{{ tools.cantidad}}</td> 
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+   
 {% endblock contenido1 %}

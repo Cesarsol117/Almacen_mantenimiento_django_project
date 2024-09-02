@@ -21,6 +21,5 @@ def create_tools(request):
     return render(request, "saveTools.html", {'vacio_form':empty_form})
 
 def view_all_tools(request):
-    if request.method == 'GET':
-        all_tools = Tools.objects.all()
-        return render(request, 'listTools.html', {'all_tools':all_tools})
+    all_tools = Tools.objects.all()
+    return render(request, 'listTools.html', {'all_tools':all_tools})

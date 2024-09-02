@@ -20,7 +20,12 @@ h1{
     align-items: center;
 
 }
+/*
 tr {
-    border: 1px dashed #000; /* Borde punteado */
-    text-align: center;      /* Texto centrado */
+    border: 1px dashed #000; /* Borde punteado 
+    text-align: center;*/      /* Texto centrado 
+}*/
+.tabla_div{
+    padding: 100px;
+    
 }

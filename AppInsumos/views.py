@@ -44,4 +44,4 @@ def busqueda_formulario(request):
         return render(request, 'resultadoBusqueda.html', {'insumos_buscado':insumos_buscado})
     else:
         return render(request, 'busquedaInsumos.html', {'mensaje':'Coloca un número...'})
-    
+# delete

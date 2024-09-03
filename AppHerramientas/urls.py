@@ -22,6 +22,6 @@ urlpatterns = [
     path('', inicio_herramientas, name='home_tools'),
     path('new_tools/', create_tools, name='form_tools'),
     path('all_tools/', view_all_tools, name='list_tools'),
-
-    
+    path('delete_tools/<identification>', delete_tools, name='delete_to_tools'),
+    path('edit_tools/<identification>', edit_tools, name='edit_to_tools'),
 ]

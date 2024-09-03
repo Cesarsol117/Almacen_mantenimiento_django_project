@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Herramientas actuales</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div class="box-formulario">
+        <h2>Edicion de herramienta {{ tools_to_edit }}</h2>
+        <form action="{% url 'edit_to_tools' tools_to_edit.id %}" method="POST">
+            {% csrf_token %}
+            <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
+            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            {{ edit_form.as_p }}
+
+            <input type="submit" value="Guardar Cambios">
+            
+
+        </form>
+    </div>
+{% endblock contenido1 %}

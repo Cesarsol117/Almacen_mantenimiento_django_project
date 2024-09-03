@@ -9,8 +9,11 @@
     <table class="table table-bordered border-primary">
         <thead>
         <tr>
+            <th scope="col">ID</th>
             <th scope="col">Nombre Herramientas</th>
             <th scope="col">Cantidad</th>
+            <th scope="col">Butons</th>  
+            <th scope="col">Butons</th>  
 
         </tr>
         </thead>
@@ -20,12 +23,20 @@
             {% for tools in all_tools  %}
             <tr>
                 
+                <td>{{ tools.id }}</td> 
                 <td>{{ tools.nombre_herramienta }}</td> 
                 <td>{{ tools.cantidad}}</td> 
+                <td><a class ="btn btn-danger" href= "{% url 'delete_to_tools' tools.id %}">Borrar</a></td>
+                <td><a class ="btn btn-success" href= "{% url 'edit_to_tools' tools.id %}">Editar</a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
+<div>
+    <p>
+        {{ mensaje }}
+    </p>
 </div>
    
 {% endblock contenido1 %}

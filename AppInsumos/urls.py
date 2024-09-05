@@ -20,10 +20,13 @@ from AppInsumos.views import *
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', pagina_inicio, name='home'),
-    path('curso/', curso, name='courses'),
+    path('curso/', all_insumos, name='todos_insumos'),
     path('pagina_cursos/', pagina_cursos, name='page_courses'),
     path('FormularioCursos/', curso_formulario, name='formulario_curso'),
     path('busquedaInsumos/', busqueda_insumo, name='busqueda_insumo'),
     path('resultadoBusqeda/', busqueda_formulario, name='formulario_busqueda'),
+    # basadas en clases
+    path('editarInsumos/editar/<int:pk>/', InsumoUpdate.as_view(), name='update_insumo'),
+    path('eliminarInsumos/editar/<int:pk>/', InsumoDelete.as_view(), name='delete_insumo'),
     
 ]

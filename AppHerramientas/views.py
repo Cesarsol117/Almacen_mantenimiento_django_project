@@ -23,13 +23,17 @@ def create_tools(request):
 def view_all_tools(request):
     all_tools = Tools.objects.all()
     return render(request, 'listTools.html', {'all_tools':all_tools})
-# delete
 
+
+
+# delete
 def delete_tools(request, identification):
     tools_to_delete = Tools.objects.get(id = identification)
     tools_to_delete.delete()
     all_tools = Tools.objects.all()
     return render(request, 'listTools.html', {'all_tools':all_tools, "mensaje":"SE elimino correctamente"})
+
+
 # update
 def edit_tools(request, identification):
     tools_to_edit = Tools.objects.get(id=identification)

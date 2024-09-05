@@ -6,11 +6,43 @@
 {% endblock %}
 {% block contenido1 %}
     <div>
-        <ul>
+        <div>
+            <a class="btn btn-primary" href="{% url 'formulario_curso' %}">Formulario</a>
+            <a class="btn btn-primary" href="{% url 'busqueda_insumo' %}">Busqueda Insumos</a>
+        </div>
+
+    </div>
+    <div class = "tabla_div">
+        <table class="table table-bordered border-primary">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Insumos</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Butons</th>  
+                <th scope="col">Butons</th>  
+    
+            </tr>
+            </thead>
+    
             
-            <li>curso 1</li>
-            <li>1</li>
-            <li>1</li>
-        </ul>
+            <tbody>
+                {% for insumo in los_insumos %}
+                <tr>
+                    
+                    <td>{{ insumo.id }}</td> 
+                    <td>{{ insumo.nombre }}</td> 
+                    <td>{{ insumo.numero_curso}}</td> 
+                    <td><a class ="btn btn-danger" href= "{% url 'delete_insumo' insumo.id %}">Borrar</a></td>
+                    <td><a class ="btn btn-success" href= "{% url 'update_insumo' insumo.id %}">Editar</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <p>
+            {{ mensaje }}
+        </p>
     </div>
 {% endblock contenido1 %}

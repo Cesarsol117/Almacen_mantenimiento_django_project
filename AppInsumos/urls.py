@@ -28,5 +28,8 @@ urlpatterns = [
     # basadas en clases
     path('editarInsumos/editar/<int:pk>/', InsumoUpdate.as_view(), name='update_insumo'),
     path('eliminarInsumos/editar/<int:pk>/', InsumoDelete.as_view(), name='delete_insumo'),
+    # Login Log out Register
+    path('login/', login_request, name='log_in'),
+    path('register/', user_register, name='sign_up'),
     
 ]

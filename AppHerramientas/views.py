@@ -2,7 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from AppHerramientas.models import Tools
 from AppHerramientas.forms import ToolsForm
 
+from django.contrib.auth.mixins import LoginRequiredMixin #vistas basadas en clases
+from django.contrib.auth.decorators import login_required #vistas basadas en funciones
+
 # Create your views here.
+@login_required
 def inicio_herramientas(request):
     return render(request, "InicioHerramientas.html")
 
@@ -19,7 +23,7 @@ def create_tools(request):
         empty_form = ToolsForm()
     
     return render(request, "saveTools.html", {'vacio_form':empty_form})
-
+@login_required
 def view_all_tools(request):
     all_tools = Tools.objects.all()
     return render(request, 'listTools.html', {'all_tools':all_tools})

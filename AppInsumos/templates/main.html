@@ -27,11 +27,25 @@
             <h1>pagina de insumos</h1>
             <h2>Hola Cesar, bienvenido de nuevo</h2>
             <div class="nav-bar">
+                {% csrf_token %}
                 <a class="btn btn-primary" href="{% url 'home' %}">home</a>
                 <a class="btn btn-primary" href="{% url 'todos_insumos' %}">Insumos</a>
                 <a class="btn btn-primary" href="{% url 'home_tools' %}">Herramientas</a>
-                <a class="btn btn-primary" href="{% url 'log_in' %}">Log in</a>
-                <a class="btn btn-primary" href="{% url 'sign_up' %}">sign up</a>
+                {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <input class="btn btn-danger" type="submit" value="Log Out" placeholder="logout">
+                    <!-- <a class="btn btn-danger" href="{% url 'logout' %}">Log out ({{ user.get_username }})</a> -->
+                </form>
+                    
+                    <p>hola {{ user.username }}</p>
+                {% else %}
+                    <a class="btn btn-primary" href="{% url 'log_in' %}">Log in</a>
+                    <a class="btn btn-primary" href="{% url 'sign_up' %}">sign up</a> 
+                {% endif %}
+                
+                
+                
             </div>
         
         </div>

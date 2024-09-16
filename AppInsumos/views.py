@@ -2,12 +2,15 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from .models import Curso
 from django.http import HttpResponse
-from AppInsumos.forms import InsumoForm
+from AppInsumos.forms import InsumoForm, UserFormNew
 
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
+
+from django.contrib.auth.mixins import LoginRequiredMixin #vistas basadas en clases
+from django.contrib.auth.decorators import login_required #vistas basadas en funciones
 
 # Create your views here.
 
@@ -23,7 +26,7 @@ def pagina_inicio(request):
 
 def pagina_cursos(request):
     return render(request, 'cursos.html')
-
+@login_required
 def all_insumos(request):
     all_insumos = Curso.objects.all()
     return render(request, 'cursos.html', {'los_insumos':all_insumos})
@@ -46,7 +49,7 @@ def curso_formulario(request):
 def busqueda_insumo(request):
     return render(request, "busquedaInsumos.html")
 
-
+@login_required
 def busqueda_formulario(request):
     if request.GET['comision']:
         comision = request.GET['comision']
@@ -56,7 +59,8 @@ def busqueda_formulario(request):
         return render(request, 'busquedaInsumos.html', {'mensaje':'Coloca un número...'})
     
 # Update
-class InsumoUpdate(UpdateView):
+
+class InsumoUpdate(LoginRequiredMixin, UpdateView):
     model = Curso
     success_url = reverse_lazy('todos_insumos')
     fields = ['nombre', 'numero_curso']
@@ -98,7 +102,7 @@ def login_request(request):
 # register
 def user_register(request):
     if request.method == 'POST':
-        user_new_form = UserCreationForm(request.POST)
+        user_new_form = UserFormNew(request.POST)
         if user_new_form.is_valid():
             username = user_new_form.cleaned_data.get('username')
             user_new_form.save()
@@ -106,6 +110,8 @@ def user_register(request):
         else:
             return render(request, 'new_user.html', {'form':user_new_form, 'mensaje':'error al crear el usuario'})
     else:
-        user_new_form = UserCreationForm()
+        user_new_form = UserFormNew()
     return render(request, 'new_user.html', {'form':user_new_form})
     
+def user_log_out(request):
+    return render(request, 'inicio.html', {'mensaje':'salio'})

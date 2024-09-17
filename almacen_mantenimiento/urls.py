@@ -19,10 +19,14 @@ from django.urls import path, include
 # anadimos las vistas
 from AppInsumos.views import * 
 from AppHerramientas.views import * 
+from AppUsers.views import * 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('AppInsumos/', include('AppInsumos.urls')),
     path('AppHerramientas/', include('AppHerramientas.urls')),
+    path('AppUsers/', include('AppUsers.urls')),
+    path('', pagina_inicio, name='home'),
+    
     
 ]

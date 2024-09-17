@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'AppInsumos',
     'AppHerramientas',
+    'AppUsers',
     
 ]
 
@@ -126,5 +127,5 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = '/AppInsumos/login/'
-LOGOUT_REDIRECT_URL='/AppInsumos/login/'
+LOGIN_URL = '/AppUsers/login/'
+LOGOUT_REDIRECT_URL='/AppUsers/login/'

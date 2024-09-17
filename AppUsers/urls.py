@@ -15,19 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from AppInsumos.views import *
+from AppUsers.views import *
 from django.contrib.auth.views import LogoutView
 
-urlpatterns = [
-    # path('admin/', admin.site.urls),
-    path('', pagina_inicio, name='home'),
-    path('curso/', all_insumos, name='todos_insumos'),
-    path('pagina_cursos/', pagina_cursos, name='page_courses'),
-    path('FormularioCursos/', curso_formulario, name='formulario_curso'),
-    path('busquedaInsumos/', busqueda_insumo, name='busqueda_insumo'),
-    path('resultadoBusqeda/', busqueda_formulario, name='formulario_busqueda'),
-    # basadas en clases
-    path('editarInsumos/editar/<int:pk>/', InsumoUpdate.as_view(), name='update_insumo'),
-    path('eliminarInsumos/editar/<int:pk>/', InsumoDelete.as_view(), name='delete_insumo'),
+urlpatterns = [ 
+    # Login Log out Register
+    path('login/', login_request, name='log_in'),
+    path('register/', user_register, name='sign_up'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 
 ]

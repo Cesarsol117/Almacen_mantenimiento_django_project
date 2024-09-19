@@ -39,6 +39,7 @@
                 </form>
                     
                     <p>hola {{ user.username }}</p>
+                    <a class="btn btn-primary" href="{% url 'edit_users' %}">Editar Usuario</a>
                 {% else %}
                     <a class="btn btn-primary" href="{% url 'log_in' %}">Log in</a>
                     <a class="btn btn-primary" href="{% url 'sign_up' %}">sign up</a> 

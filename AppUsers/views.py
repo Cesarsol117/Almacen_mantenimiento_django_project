@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 
 from django.contrib.auth.mixins import LoginRequiredMixin #vistas basadas en clases
 from django.contrib.auth.decorators import login_required #vistas basadas en funciones
-from AppUsers.forms import UserFormNew
+from AppUsers.forms import UserEditForm, UserFormNew
 
 # Create your views here.
 
@@ -45,6 +45,27 @@ def user_register(request):
     else:
         user_new_form = UserFormNew()
     return render(request, 'AppUsers/new_user.html', {'form':user_new_form})
-    
+
+@login_required    
+def edit_user(request):
+    user_to_edit = request.user
+    if request.method == 'POST':
+        form_to_edit = UserEditForm(request.POST)
+        if form_to_edit.is_valid():
+            edit_form_data = form_to_edit.cleaned_data
+            user_to_edit.email = edit_form_data['email']
+            user_to_edit.password1 = edit_form_data['password1']
+            user_to_edit.password2 = edit_form_data['password2']
+            user_to_edit.first_name = edit_form_data['first_name']
+            user_to_edit.last_name = edit_form_data['last_name']
+            user_to_edit.save()
+            return render(request, 'inicio.html', {'mensaje':'usuario editado correctamente'})
+        else:
+            return render(request, 'AppUsers/edit_user_form.html', {'mensaje':'error al editar', 'form':form_to_edit, 'user_name_log': user_to_edit.username})
+    else:
+        form_to_edit = UserEditForm(instance = user_to_edit)
+        return render(request, 'AppUsers/edit_user_form.html', {'form':form_to_edit, 'user_name_log': user_to_edit.username})
+
 def user_log_out(request):
     return render(request, 'inicio.html', {'mensaje':'salio'})
+

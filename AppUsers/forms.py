@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
+from AppUsers.models import Avatar
 #creacion del formulario de registro por uno propip
 class UserFormNew(UserCreationForm):
     email = forms.EmailField(max_length= 50, required=True)
@@ -24,3 +24,16 @@ class UserEditForm(UserCreationForm):
         model = User
         fields = ['email', 'password1', 'password2', 'first_name','last_name']
         help_texts = {k:'' for k in fields}
+        
+# class AvatarForm(forms.Form):
+#     imagen = forms.ImageField(label='avatar')
+
+
+
+class AvatarForm(forms.ModelForm):
+    class Meta:
+        model = Avatar
+        fields = ['user_imagen']  # Campo vinculado al modelo Avatar
+        labels = {
+            'user_imagen': 'Avatar'
+        }

@@ -5,7 +5,8 @@ from django.contrib.auth import login, logout, authenticate
 
 from django.contrib.auth.mixins import LoginRequiredMixin #vistas basadas en clases
 from django.contrib.auth.decorators import login_required #vistas basadas en funciones
-from AppUsers.forms import UserEditForm, UserFormNew
+from AppUsers.forms import AvatarForm, UserEditForm, UserFormNew
+from AppUsers.models import Avatar
 
 # Create your views here.
 
@@ -68,4 +69,23 @@ def edit_user(request):
 
 def user_log_out(request):
     return render(request, 'inicio.html', {'mensaje':'salio'})
+
+# Editar Avatar
+@login_required
+def edit_user_avatar(request):
+    user_avatar = Avatar.objects.filter(user=request.user).first()
+    if request.method == 'POST':
+        avatar_form_edit = AvatarForm(request.POST, request.FILES, instance=user_avatar)
+        if avatar_form_edit.is_valid():
+            avatar_image = avatar_form_edit.save(commit=False)
+            avatar_image.user = request.user
+            avatar_image.save()
+            return render(request, 'inicio.html', {'mensaje':'Avatar agregado '})
+        else:
+            return render(request, 'AppUsers/add_avatar.html', {'avatar_form': avatar_form_edit, 'mensaje': 'Error al subir el avatar'})           
+    else:
+        avatar_form_edit = AvatarForm(instance=user_avatar)
+        return render(request, 'AppUsers/add_avatar.html', {'avatar_form':avatar_form_edit, 'user_name_log':request.user})
+    # avatar_to_edit = request.user
+    
 

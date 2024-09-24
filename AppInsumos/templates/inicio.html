@@ -1,8 +1,24 @@
 {% extends "main.html" %}
 {% load static %}
 
+{% block image %}
+    {% if user.is_authenticated  %}
+        <div class="">
+            <a class="navbar-brand" href="{% url 'edit_users' %}" >
+            <img src="{{ avatar_image_user }}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+            Hello {{ user.username }}
+            </a>
+        </div>
+    {% else %}
+    <a class="btn btn-primary" href="{% url 'log_in' %}">ingresa aqui</a>
+    {% endif %}
+
+{% endblock image %}
+
+
 {% block principal %}
-    <h1>Estamos en inicio</h1>
+    <h1>Estamos en inicio </h1>
+    
 {% endblock %}
 {% block contenido1 %}
     <div>

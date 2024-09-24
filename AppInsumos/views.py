@@ -4,6 +4,7 @@ from .models import Curso
 from django.http import HttpResponse
 from AppInsumos.forms import InsumoForm
 
+
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -12,11 +13,22 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin #vistas basadas en clases
 from django.contrib.auth.decorators import login_required #vistas basadas en funciones
 
+from AppUsers.models import Avatar
+
 # Create your views here.
 
+DEFAULT_AVATAR_PATH = '/media/Avatares/TrianguloIsoceles.jpg'
 
 def pagina_inicio(request):
-    return render(request, 'inicio.html')
+    if request.user.is_authenticated:
+        avatar = Avatar.objects.filter(user=request.user).first()  # Obtén el primer avatar si existe
+        if avatar:
+            avatar_image = avatar.user_imagen.url  # Obtén la URL del avatar
+        else:
+            avatar_image = DEFAULT_AVATAR_PATH  # Usa la imagen por defecto si no tiene avatar
+        return render(request, 'inicio.html', {"avatar_image_user": avatar_image})
+    else:
+        return render(request, 'inicio.html')
 
 # def curso(request):
 #     curso = Curso(nombre = 'Python', numero_curso = 1234)

@@ -28,23 +28,32 @@
             <h2>Hola Cesar, bienvenido de nuevo</h2>
             <div class="nav-bar">
                 {% csrf_token %}
+                
+
                 <a class="btn btn-primary" href="{% url 'home' %}">home</a>
                 <a class="btn btn-primary" href="{% url 'todos_insumos' %}">Insumos</a>
                 <a class="btn btn-primary" href="{% url 'home_tools' %}">Herramientas</a>
                 {% if user.is_authenticated %}
-                <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <input class="btn btn-danger" type="submit" value="Log Out" placeholder="logout">
-                    <!-- <a class="btn btn-danger" href="{% url 'logout' %}">Log out ({{ user.get_username }})</a> -->
-                </form>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <input class="btn btn-danger" type="submit" value="Log Out" placeholder="logout">
+                        <!-- <a class="btn btn-danger" href="{% url 'logout' %}">Log out ({{ user.get_username }})</a> -->
+                    </form>
+
                     
-                    <p>hola {{ user.username }}</p>
-                    <a class="btn btn-primary" href="{% url 'edit_users' %}">Editar Usuario</a>
+                    <!-- <div class="">
+                        <p>hola {{ user.username }} </p>
+                        <a class="btn btn-primary" href="{% url 'edit_users' %}">Editar Usuario</a>
+                        <img src="{{ avatar_image_user }}" alt=""> 
+                    </div> -->
+                    
                 {% else %}
                     <a class="btn btn-primary" href="{% url 'log_in' %}">Log in</a>
                     <a class="btn btn-primary" href="{% url 'sign_up' %}">sign up</a> 
                 {% endif %}
-                
+                {% block image %}
+                  
+                {% endblock image %}
                 
                 
             </div>

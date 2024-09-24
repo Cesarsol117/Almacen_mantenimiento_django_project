@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Editar Usuario</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div class="box-formulario">
+        <h2>Editar Avatar {{ user_name_log }}</h2>
+        <div class="">
+              <img src="{{ avatar_image_user.url }}" alt="" width="30" height="24" class="">
+        </div>
+        <form href="{% url 'edit_avatar' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
+            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            <table>
+                {{ avatar_form.as_p }}
+            </table>
+            
+
+            <input type="submit" value="Editar" >
+            
+
+        </form>
+        <h2> {{ mensaje }} </h2>
+        
+    </div>
+{% endblock contenido1 %}

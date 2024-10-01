@@ -19,14 +19,20 @@ from AppUsers.models import Avatar
 
 DEFAULT_AVATAR_PATH = '/media/Avatares/TrianguloIsoceles.jpg'
 
+
+def get_avatar_user(request):
+    avatar = Avatar.objects.filter(user=request.user).first()  # Obtén el primer avatar si existe
+    if avatar:
+        avatar_image = avatar.user_imagen.url  # Obtén la URL del avatar
+    else:
+        avatar_image = DEFAULT_AVATAR_PATH  # Usa la imagen por defecto si no tiene avatar
+    return avatar_image
+
+
 def pagina_inicio(request):
     if request.user.is_authenticated:
         avatar = Avatar.objects.filter(user=request.user).first()  # Obtén el primer avatar si existe
-        if avatar:
-            avatar_image = avatar.user_imagen.url  # Obtén la URL del avatar
-        else:
-            avatar_image = DEFAULT_AVATAR_PATH  # Usa la imagen por defecto si no tiene avatar
-        return render(request, 'inicio.html', {"avatar_image_user": avatar_image})
+        return render(request, 'inicio.html', {"avatar_image_user": get_avatar_user(request)})
     else:
         return render(request, 'inicio.html')
 

@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 
 from django.contrib.auth.mixins import LoginRequiredMixin #vistas basadas en clases
 from django.contrib.auth.decorators import login_required #vistas basadas en funciones
+from AppInsumos.views import get_avatar_user
 from AppUsers.forms import AvatarForm, UserEditForm, UserFormNew
 from AppUsers.models import Avatar
 
@@ -65,7 +66,7 @@ def edit_user(request):
             return render(request, 'AppUsers/edit_user_form.html', {'mensaje':'error al editar', 'form':form_to_edit, 'user_name_log': user_to_edit.username})
     else:
         form_to_edit = UserEditForm(instance = user_to_edit)
-        return render(request, 'AppUsers/edit_user_form.html', {'form':form_to_edit, 'user_name_log': user_to_edit.username})
+        return render(request, 'AppUsers/edit_user_form.html', {'form':form_to_edit, 'user_name_log': user_to_edit.username, "avatar_image_user": get_avatar_user(request)})
 
 def user_log_out(request):
     return render(request, 'inicio.html', {'mensaje':'salio'})
@@ -85,7 +86,7 @@ def edit_user_avatar(request):
             return render(request, 'AppUsers/add_avatar.html', {'avatar_form': avatar_form_edit, 'mensaje': 'Error al subir el avatar'})           
     else:
         avatar_form_edit = AvatarForm(instance=user_avatar)
-        return render(request, 'AppUsers/add_avatar.html', {'avatar_form':avatar_form_edit, 'user_name_log':request.user})
+        return render(request, 'AppUsers/add_avatar.html', {'avatar_form':avatar_form_edit, 'user_name_log':request.user, "avatar_image_user": get_avatar_user(request)})
     # avatar_to_edit = request.user
     
 

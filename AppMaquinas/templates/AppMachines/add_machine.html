@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+{% block principal %}
+<h1>Maquinas</h1>
+{% endblock principal %}
+{% block contenido1 %}
+
+<form action="{% url 'add_machines' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+<input type="submit" value="Crear" >
+</form>
+
+
+{% endblock contenido1 %}

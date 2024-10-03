@@ -20,6 +20,7 @@ from django.urls import path, include
 from AppInsumos.views import * 
 from AppHerramientas.views import * 
 from AppUsers.views import * 
+
 # avaytares 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -29,6 +30,7 @@ urlpatterns = [
     path('AppInsumos/', include('AppInsumos.urls')),
     path('AppHerramientas/', include('AppHerramientas.urls')),
     path('AppUsers/', include('AppUsers.urls')),
+    path('AppMaquinas/', include('AppMaquinas.urls')),
     path('', pagina_inicio, name='home'),
     
     

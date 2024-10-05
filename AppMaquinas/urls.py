@@ -15,13 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from AppMaquinas.views import MachineFormView, MachineListView
+from AppMaquinas.views import MachineDetailView, MachineFormView, MachineListView, MachineUpdateView
 
 
 urlpatterns = [ 
     # Login Log out Register
     path('add_machine/', MachineFormView.as_view(), name='add_machines'),
     path('all_machine/', MachineListView.as_view(), name='all_machines'),
+    path('up_date_machine/editar/<int:pk>/', MachineUpdateView.as_view(), name='update_the_machine'),
+    path('machine/detalle/<int:pk>/', MachineDetailView.as_view(), name='machine_detail'),
     
 
 ]

@@ -33,6 +33,7 @@
                 <a class="btn btn-primary" href="{% url 'home' %}">home</a>
                 <a class="btn btn-primary" href="{% url 'todos_insumos' %}">Insumos</a>
                 <a class="btn btn-primary" href="{% url 'home_tools' %}">Herramientas</a>
+                <a class="btn btn-primary" href="{% url 'all_machines' %}">Maquinas</a>
                 {% if user.is_authenticated %}
                     <form action="{% url 'logout' %}" method="post">
                         {% csrf_token %}

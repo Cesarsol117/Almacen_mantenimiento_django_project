@@ -6,7 +6,7 @@ from django.db import models
 class Machine(models.Model):
     name = models.TextField(max_length=200, verbose_name="nombre")
     description = models.TextField(max_length=500, verbose_name="descripcion")
-    photo = models.ImageField(upload_to='logos', null=True, blank=True, verbose_name='Foto')
+    photo = models.ImageField(upload_to='Maquinas', null=True, blank=True, verbose_name='Foto')
     
     def __str__(self):
         return self.name

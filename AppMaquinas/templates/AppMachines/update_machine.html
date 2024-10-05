@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Maquinas formulario</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div class="box-formulario">
+        <h2>Actualizar Maquina: {{ object.name }}</h2>
+        <form  method="POST">
+            {% csrf_token %}
+            <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
+            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            {{ form.as_p }}
+
+            <input class="btn btn-success" type="submit" value="Actualizar" pla>
+            
+
+        </form>
+    </div>
+{% endblock contenido1 %}

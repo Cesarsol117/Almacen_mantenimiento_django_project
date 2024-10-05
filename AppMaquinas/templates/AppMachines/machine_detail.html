@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+{% block contenido1 %}
+    <h2>Detalles de la Máquina: {{ machine.name }}</h2>
+    <p><strong>Descripción:</strong> {{ machine.description }}</p>
+    
+    {% if machine.photo %}
+        <p><strong>Foto:</strong></p>
+        <img >
+    {% else %}
+        <p>No hay foto disponible</p>
+    {% endif %}
+    <br>
+    <a href="{% url 'all_machines' %}">Volver a la lista</a>
+
+    <div class="card mb-3">
+        <img src="{{ machine.photo.url }}" alt="Foto de {{ machine.name }}" width="200" height="200" class="card-img-top" >
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+{% endblock %}

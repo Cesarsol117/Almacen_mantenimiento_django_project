@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic import ListView
+from django.views.generic import ListView, DeleteView, UpdateView, DetailView
 
 from AppMaquinas.models import Machine
 from .forms import MachineForm
@@ -23,8 +23,13 @@ class MachineListView(ListView):
     model = Machine
     template_name = "AppMachines/all_machines"
     context_object_name = 'machines'
+class MachineUpdateView(UpdateView):
+    model = Machine
+    fields = ['name', 'description']
+    template_name = 'AppMachines/update_machine.html'  # Template para el formulario de actualización
+    success_url = reverse_lazy('all_machines')
     
-    
-
-
-    
+class MachineDetailView(DetailView):
+    model = Machine
+    template_name = 'AppMachines/machine_detail.html'  # Template donde se mostrará la información de la máquina
+    context_object_name = 'machine' 

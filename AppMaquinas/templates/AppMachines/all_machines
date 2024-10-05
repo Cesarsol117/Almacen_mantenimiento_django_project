@@ -6,8 +6,8 @@
         
         <div class="col">
             <div class="card" style="width: 18rem;">
-                {% if machine.photo %}
-                <img src=""{{ machine.photo.url }}" " class="card-img-top" alt="{{ machine.name }}">
+                {% if maquina.photo %}
+                <img src="{{ maquina.photo.url }}" class="card-img-top" alt="{{ maquina.name }}" height="250px" width="auto">
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ maquina.name }}</h5>
@@ -19,8 +19,8 @@
                 <li class="list-group-item">A third item</li>
                 </ul>
                 <div class="card-body">
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    <a href="{% url 'update_the_machine' maquina.id %}" class="card-link">Actualizar</a>
+                    <a href="{% url "machine_detail" maquina.id %}" class="card-link">Mas informacion</a>
                 </div>
             </div>
         </div>

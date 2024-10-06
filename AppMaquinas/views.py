@@ -33,3 +33,14 @@ class MachineDetailView(DetailView):
     model = Machine
     template_name = 'AppMachines/machine_detail.html'  # Template donde se mostrará la información de la máquina
     context_object_name = 'machine' 
+    
+class MachineDeleteView(DeleteView):
+    model = Machine
+    template_name = "AppMachines/curso_confirm_delete.html"
+    success_url = reverse_lazy('all_machines')
+    context_object_name = 'machine'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mensaje'] = 'Confirmación de eliminación de curso'
+        return context

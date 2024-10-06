@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>MAcquina Borrar</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div class="box-formulario">
+        <h2>Formulario</h2>
+        <form  method="POST">
+            {% csrf_token %}
+            <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
+            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            {{ form.as_p }}
+            <h2>EStas seguro de borar "{{ object }}"</h2>
+            <input type="submit" value="si" >
+            
+
+        </form>
+    </div>
+{% endblock contenido1 %}

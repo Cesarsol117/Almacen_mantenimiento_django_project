@@ -1,30 +1,34 @@
 {% extends "inicio.html" %}
 {% block contenido1 %}
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    
+
+    <div class="layout">
         {% for maquina in machines %}
-        
-        <div class="col">
-            <div class="card" style="width: 18rem;">
-                {% if maquina.photo %}
-                <img src="{{ maquina.photo.url }}" class="card-img-top" alt="{{ maquina.name }}" height="250px" width="auto">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ maquina.name }}</h5>
-                    <p class="card-text">{{ maquina.description}}</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-                </ul>
-                <div class="card-body">
-                    <a href="{% url 'update_the_machine' maquina.id %}" class="card-link">Actualizar</a>
-                    <a href="{% url "machine_detail" maquina.id %}" class="card-link">Mas informacion</a>
+            
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    {% if maquina.photo %}
+                    <img src="{{ maquina.photo.url }}" class="card-img-top" alt="{{ maquina.name }}" height="250px" width="auto">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ maquina.name }}</h5>
+                        <p class="card-text">{{ maquina.description}}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="{% url 'update_the_machine' maquina.id %}" class="card-link">Actualizar</a>
+                        <a href="{% url "machine_detail" maquina.id %}" class="card-link">Mas informacion</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
-    
-</div>
+            {% endfor %}
+
+    </div>
+        
+            
+        
+   
 {% endblock contenido1 %}

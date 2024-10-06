@@ -5,6 +5,13 @@ body{
 h1{
     color: brown;
 }
+.main-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgb(155, 13, 13);
+    align-items: center;
+}
 .nav-bar{
     border: 1px solid blue;
     display: flex;
@@ -32,3 +39,21 @@ tr {
 .container-fluid{
     width: 20px;
 }
+.alineacion{
+    display: flex;
+    
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.card-img-top{
+    padding: 10px;
+}
+.layout{
+
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  
+    justify-content: center;
+  }

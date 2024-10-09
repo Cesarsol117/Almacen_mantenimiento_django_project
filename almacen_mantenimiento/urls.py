@@ -31,6 +31,7 @@ urlpatterns = [
     path('AppHerramientas/', include('AppHerramientas.urls')),
     path('AppUsers/', include('AppUsers.urls')),
     path('AppMaquinas/', include('AppMaquinas.urls')),
+    path('AppRepuestos/', include('AppRepuestos.urls')),
     path('', pagina_inicio, name='home'),
     
     

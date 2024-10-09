@@ -19,11 +19,38 @@
           <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
       </div>
+      <h3>Repuestos Asociados:</h3>
+<table class="table table-bordered border-primary">
+    <thead>
+        <tr>
+            <th>Nombre Repuesto</th>
+            <th>Cantidad</th>
+            <th>Código</th>
+            <th>Ubicación</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for spare_part in machine.repuestos.all %}
+        <tr>
+            <td>{{ spare_part.name_spare_part }}</td>
+            <td>{{ spare_part.quantity }}</td>
+            <td>{{ spare_part.code }}</td>
+            <td>{{ spare_part.storage_location }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No hay repuestos asociados a esta máquina.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
       <div class="">
         <a class="btn btn-primary" href="{% url 'all_machines' %}">Volver a la lista</a>
         <a class="btn btn-primary" href="{% url 'update_the_machine' machine.id %}">Actualizar Maquina</a>
         <a class="btn btn-danger" href="{% url 'delete_machine' machine.id %}">Eliminar Maquina</a>
         
       </div>
+      
+
       
 {% endblock %}

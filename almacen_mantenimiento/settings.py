@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'AppHerramientas',
     'AppUsers',
     'AppMaquinas',
+    'AppRepuestos',
     
 ]
 

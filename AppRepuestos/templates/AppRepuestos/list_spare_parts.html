@@ -1,0 +1,57 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Repuestos</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div>
+        <a class ="btn btn-success" href= "{% url 'spare_parts_add' %}">Añadir Repuesto</a></td>
+        <a class ="btn btn-primary" href= "{% url 'spare_parts_add' %}">Buscar Repuesto</a></td>
+    </div>
+
+    <div class = "tabla_div">
+        <table class="table table-bordered border-primary">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Repuestos</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Maquina</th>
+                <th scope="col">Fecha </th>
+                <th scope="col">Disponible </th>
+                <th scope="col">Acción: Borrar</th>  
+                <th scope="col">Acción: Editar</th>   
+    
+            </tr>
+            </thead>
+    
+            
+            <tbody>
+                {% for spare_part in repuestos %}
+                <tr>
+                    
+                    <td>{{ spare_part.id }}</td> 
+                    <td>{{ spare_part.name_spare_part }}</td> 
+                    <td>{{ spare_part.quantity}}</td> 
+                    <td>
+                        {% for machine in spare_part.machines.all %}
+                            {{ machine.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td> 
+                    <td>{{ spare_part.date_to_register }}</td> 
+                    <td>{{ spare_part.available }}</td> 
+                    <td><a class ="btn btn-danger" href= "#">Borrar</a></td>
+                    <td><a class ="btn btn-success" href= "{% url 'spare_parts_update' spare_part.id %}">Editar</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        
+        <p>
+            {{ mensaje }}
+        </p>
+    </div>
+{% endblock contenido1 %}

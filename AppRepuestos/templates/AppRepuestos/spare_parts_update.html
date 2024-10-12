@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Actualizar Repuestos</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div class="box-formulario">
+        <h2>Actualizar Repuestos: {{ object.name_spare_part }}</h2>
+        <form action="{% url 'spare_parts_update'  spare_part.id %}" method="POST">
+            {% csrf_token %}
+            <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
+            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            {{ form.as_p }}
+
+            <input class="btn btn-success" type="submit" value="Actualizar" pla>
+            
+
+        </form>
+    </div>
+{% endblock contenido1 %}

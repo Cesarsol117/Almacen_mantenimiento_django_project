@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Agregar herramientas</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div class="box-formulario">
+        <h2>Ingrese Repuestos</h2>
+        <form action="{% url 'spare_parts_add' %}" method="POST">
+            {% csrf_token %}
+            <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
+            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            {{ vacio_form.as_p }}
+
+            <input type="submit" value="Enviar" pla>
+            
+
+        </form>
+    </div>
+{% endblock contenido1 %}

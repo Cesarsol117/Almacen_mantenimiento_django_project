@@ -59,7 +59,7 @@ def update_spare_parts(request, identy):
             
             edit_spare_part.name_spare_part=data_update_spoare_part['name_spare_part']
             edit_spare_part.quantity       =data_update_spoare_part['quantity']       
-            edit_spare_part.code=data_update_spoare_part['code'],
+            edit_spare_part.code=data_update_spoare_part['code']
             edit_spare_part.storage_location=data_update_spoare_part['storage_location']
             edit_spare_part.notes=data_update_spoare_part['notes']
             if data_update_spoare_part['quantity'] == 0:
@@ -80,4 +80,17 @@ def update_spare_parts(request, identy):
                                                         'notes':edit_spare_part.notes}
                                              )
     return render(request, "AppRepuestos/spare_parts_update.html", {'form':spare_part_form, 'spare_part':edit_spare_part})
-    
+
+def delete_spare_part(request, id_part):
+    delete_part = Repuestos.objects.get(id = id_part)
+    delete_part.delete()
+    all_spare_parts = Repuestos.objects.all()
+    return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se borro correctamente', 'repuestos':all_spare_parts})
+
+def search_for_spare_parts(request):
+    if request.GET['spare_part_name']:
+        spare_search = request.GET['spare_part_name']
+        find_spare_part = Repuestos.objects.filter(name_spare_part__icontains = spare_search)
+        return render(request, "AppRepuestos/list_spare_parts.html",{'repuestos':find_spare_part})
+    else:
+        return render(request, "AppRepuestos/list_spare_parts.html",{'mensaje':'din Repuestos'})

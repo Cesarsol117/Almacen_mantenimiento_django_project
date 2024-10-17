@@ -7,8 +7,17 @@
 {% block contenido1 %}
     <div>
         <a class ="btn btn-success" href= "{% url 'spare_parts_add' %}">Añadir Repuesto</a></td>
-        <a class ="btn btn-primary" href= "{% url 'spare_parts_add' %}">Buscar Repuesto</a></td>
+        <a class ="btn btn-primary" href= "{% url 'spare_parts_list' %}">Todos Los repuestos</a></td>
+        
     </div>
+    
+    <div class="box-formulario">
+            <form action="{% url 'search_parts_update' %}" method="GET">
+                <input type="text" name="spare_part_name" id="busqueda_repuesto" placeholder="Nombre del Repuesto">
+                <input class="btn btn-primary" type="submit" value="Buscar Repuesto">
+            </form>
+    </div>
+    
 
     <div class = "tabla_div">
         <table class="table table-bordered border-primary">
@@ -41,7 +50,7 @@
                     </td> 
                     <td>{{ spare_part.date_to_register }}</td> 
                     <td>{{ spare_part.available }}</td> 
-                    <td><a class ="btn btn-danger" href= "#">Borrar</a></td>
+                    <td><a class ="btn btn-danger" href= "{% url 'delete_parts_update' spare_part.id %}">Borrar</a></td>
                     <td><a class ="btn btn-success" href= "{% url 'spare_parts_update' spare_part.id %}">Editar</a></td>
                 </tr>
                 {% endfor %}

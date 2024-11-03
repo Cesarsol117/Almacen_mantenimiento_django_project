@@ -6,17 +6,40 @@
             
             <div class="col">
                 <div class="card" style="width: 18rem;">
-                    {% if maquina.photo %}
-                    <img src="{{ maquina.photo.url }}" class="card-img-top" alt="{{ maquina.name }}" height="250px" width="auto">
-                    {% endif %}
+
+                    
+                        {% comment %} {% for  image in maquina.machine_photos.all %}
+                                    
+                            <img src="{{ image.machine_imagen.url }}" class="d-block w-100" alt="{{ maquina.name }}" height="250px" width="auto">
+                                        
+                        {% endfor %} {% endcomment %}
+                    {% comment %} <img src="{{ maquina.machine_imagen.url }}" class="card-img-top" alt="{{ maquina.machine_imagen.machine }}" height="250px" width="auto"> {% endcomment %}
+                    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for  image in maquina.machine_photos.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}" height="250px" width="auto">
+                                    <img src="{{ image.machine_imagen.url }}" class="d-block w-100" alt="...">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
                     <div class="card-body">
                         <h5 class="card-title">{{ maquina.name }}</h5>
                         <p class="card-text">{{ maquina.description}}</p>
                     </div>
                     <ul class="list-group list-group-flush">
-                    <li class="list-group-item">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
+                        <li class="list-group-item">Ubicacion: {{ maquina.site_room }}</li>
+                        <li class="list-group-item">voltaje: {{ maquina.voltage }}</li>
+                        <li class="list-group-item">Amperaje: {{ maquina.amperes }}</li>
                     </ul>
                     <div class="card-body">
                         <a href="{% url 'update_the_machine' maquina.id %}" class="card-link">Actualizar</a>

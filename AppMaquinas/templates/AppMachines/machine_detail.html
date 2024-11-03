@@ -4,11 +4,15 @@
         <p><strong>Foto:</strong></p>
         <div class="alineacion">
 
-            {% if machine.photo %}
-            
-            <img src="{{ machine.photo.url }}" alt="Foto de {{ machine.name }}" width="200px" height="200px" class="card-img-top" >
-            <img src="{{ machine.photo.url }}" alt="Foto de {{ machine.name }}" width="200px" height="200px" class="card-img-top" >
-            <img src="{{ machine.photo.url }}" alt="Foto de {{ machine.name }}" width="200px" height="200px" class="card-img-top" >
+            {% if machine.machine_photos.all %}
+            {% for  image in machine.machine_photos.all %}
+                            
+                                <img src="{{ image.machine_imagen.url }}" alt="Foto de {{ machine.name }}" width="200px" height="200px" class="card-img-top" >    
+                                
+                            
+            {% endfor %}
+           
+           
             {% else %}
                 <p>No hay foto disponible</p>
             {% endif %}
@@ -16,6 +20,10 @@
         <div class="card-body">
           <h5 class="card-title">Detalles de la Máquina: {{ machine.name }}</h5>
           <p class="card-text"><strong>Descripción:</strong> {{ machine.description }}</p>
+          <p class="card-text"><strong>Potencia:</strong> {{ machine.power }}</p>
+          <p class="card-text"><strong>Voltaje:</strong> {{ machine.voltage }}</p>
+          <p class="card-text"><strong>Amperaje:</strong> {{ machine.amperes }}</p>
+          <p class="card-text"><strong>Ubicacion:</strong> {{ machine.site_room  }}</p>
           <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
       </div>

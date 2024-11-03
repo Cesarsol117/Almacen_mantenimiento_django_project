@@ -57,3 +57,7 @@ tr {
   
     justify-content: center;
   }
+  .carousel-item.active {
+  
+    height: 250px;
+  }

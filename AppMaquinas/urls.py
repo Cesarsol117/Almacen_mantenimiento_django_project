@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from AppMaquinas.views import MachineDetailView, MachineFormView, MachineListView, MachineUpdateView, MachineDeleteView
+from AppMaquinas.views import MachineDetailView, MachineFormView, MachineListView, MachineUpdateView, MachineDeleteView, get_machine_image
 
 
 urlpatterns = [ 
@@ -25,6 +25,7 @@ urlpatterns = [
     path('up_date_machine/editar/<int:pk>/', MachineUpdateView.as_view(), name='update_the_machine'),
     path('machine/detalle/<int:pk>/', MachineDetailView.as_view(), name='machine_detail'),
     path('delete-machine/delete/<int:pk>/', MachineDeleteView.as_view(), name='delete_machine'),
+    path('photo-machine/', get_machine_image, name='photo_machine'),
     
 
 ]

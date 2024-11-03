@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import ListView, DeleteView, UpdateView, DetailView
 
-from AppMaquinas.models import Machine
+from AppMaquinas.models import Machine, MachineImage
 from .forms import MachineForm
 
 # Create your views here.
@@ -23,9 +23,11 @@ class MachineListView(ListView):
     model = Machine
     template_name = "AppMachines/all_machines"
     context_object_name = 'machines'
+    
+
 class MachineUpdateView(UpdateView):
     model = Machine
-    fields = ['name', 'description']
+    fields = ['name', 'description','site_room', 'capacity', 'power', 'voltage', 'amperes', 'fabricante', 'service']
     template_name = 'AppMachines/update_machine.html'  # Template para el formulario de actualización
     success_url = reverse_lazy('all_machines')
     
@@ -44,3 +46,13 @@ class MachineDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['mensaje'] = 'Confirmación de eliminación de curso'
         return context
+
+def get_machine_image(request):
+    get_all_machines = MachineImage.objects.all()
+    print(get_all_machines)
+
+    # Pasar las imágenes al template
+    return render(request, "AppMachines/images_machine.html", { 'images_machine': get_all_machines })
+   
+        
+    

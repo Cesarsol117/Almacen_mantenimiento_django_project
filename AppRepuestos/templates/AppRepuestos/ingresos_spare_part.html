@@ -5,13 +5,18 @@
     <h1>Actualizar Repuestos</h1>
 {% endblock %}
 {% block contenido1 %}
+<a class ="btn btn-primary" href= "{% url 'spare_parts_list' %}">Todos Los repuestos</a>
     <div class="box-formulario">
-        <h2>Actualizar Repuestos: {{ object.name_spare_part }}</h2>
-        <form action="{% url 'spare_parts_update'  spare_part.id %}" method="POST">
+        <h2>Actualizar Repuestos: {{ spare_part.name_spare_part }}</h2>
+        <form action="{% url 'spare_parts_ingreso'  spare_part.id %}" method="POST">
             {% csrf_token %}
             <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
             <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            <p>Nombre: {{ spare_part.name_spare_part }}</p>
+            <p>Cantidad: {{ spare_part.quantity }}</p>
             {{ form.as_p }}
+            
+
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Actualizar
             </button>
@@ -33,7 +38,6 @@
                 </div>
                 </div>
             </div>
-            
             
 
         </form>

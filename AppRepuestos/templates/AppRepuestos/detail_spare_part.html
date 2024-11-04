@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+{% block contenido1 %}
+    <div class="card mb-3">
+        <p><strong>Foto:</strong></p>
+        <div class="alineacion">
+
+            {% if machine.machine_photos.all %}
+            {% for  image in machine.machine_photos.all %}
+                            
+                                <img src="{{ image.machine_imagen.url }}" alt="Foto de {{ machine.name }}" width="200px" height="200px" class="card-img-top" >    
+                                
+                            
+            {% endfor %}
+           
+           
+            {% else %}
+                <p>No hay foto disponible</p>
+            {% endif %}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Detalles de la Máquina: {{ repuestos.name_spare_part }}</h5>
+          <p class="card-text"><strong>Cantidad</strong> {{ repuestos.quantity  }}</p>
+          <p class="card-text"><strong>Disponible:</strong> 
+            {% if repuestos.available %}
+            <svg xmlns="http://www.w3.org/2000/svg" x-bind:width="size" x-bind:height="size" viewBox="0 0 24 24" fill="none" stroke="currentColor" x-bind:stroke-width="stroke" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
+                <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95"></path>
+                <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44"></path>
+                <path d="M3.69 15.44a9 9 0 0 0 1.95 2.92"></path>
+                <path d="M8.56 20.31a9 9 0 0 0 3.44 .69"></path>
+                <path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95"></path>
+                <path d="M20.31 15.44a9 9 0 0 0 .69 -3.44"></path>
+                <path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92"></path>
+                <path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69"></path>
+                <path d="M9 12l2 2l4 -4"></path>
+              </svg>
+            {% else %}
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-ban">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                <path d="M5.7 5.7l12.6 12.6" /></svg>
+            {% endif %}</p>
+          <p class="card-text"><strong>Codigo:</strong> {{ repuestos.code  }}</p>
+          <p class="card-text"><strong>Ubicacion:</strong> {{ repuestos.storage_location }}</p>
+          <p class="card-text"><strong>Descripcion:</strong> {{ repuestos.notes  }}</p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+      <h3>Repuestos Asociados:</h3>
+<table class="table table-bordered border-primary">
+    <thead>
+        <tr>
+            <th>Nombre Maquina</th>
+            <th>Ubicacion</th>
+            <th>Descripcion</th>
+            <th>Servicios</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for spare_part in repuestos.machines.all %}
+        <tr>
+            <td>{{ spare_part.name }}</td>
+            <td>{{ spare_part.site_room }}</td>
+            <td>{{ spare_part.description }}</td>
+            <td>{{ spare_part.service }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No hay repuestos asociados a esta máquina.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+      <div class="">
+        <a class="btn btn-primary" href="{% url 'spare_parts_list' %}">Volver a la lista</a>
+        <a class="btn btn-primary" href="{% url 'spare_parts_update' repuestos.id %}">Actualizar Repuestos</a>
+        <a class="btn btn-danger" href="{% url 'delete_parts_update' repuestos.id %}">Eliminar Repuestos</a>
+        
+      </div>
+      
+
+      
+{% endblock %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from AppRepuestos.forms import RepuestoCreateForm
+from AppRepuestos.forms import RepuestoCreateForm, RepuestoIngresoForm
 from .models import Repuestos
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 # Create your views here.
@@ -80,7 +80,38 @@ def update_spare_parts(request, identy):
                                                         'notes':edit_spare_part.notes}
                                              )
     return render(request, "AppRepuestos/spare_parts_update.html", {'form':spare_part_form, 'spare_part':edit_spare_part})
+# ingreso de todos los repuestos
+def ingreso_spare_parts(request, id_part):
+    spare_part_ingreso =  Repuestos.objects.get(id = id_part)
+    if request.method == 'POST':
+        spare_part_form = RepuestoIngresoForm(request.POST)
+        if spare_part_form.is_valid():
+            data_ingreso_spare_part = spare_part_form.cleaned_data
+            print(data_ingreso_spare_part)
+            spare_part_ingreso.quantity       = spare_part_ingreso.quantity + data_ingreso_spare_part['quantity']
+            print(spare_part_ingreso.quantity)
+            if data_ingreso_spare_part['quantity'] == 0:
+                spare_part_ingreso.available = False
+            else:
+                spare_part_ingreso.available = True
+            spare_part_ingreso.save()
+            all_spare_parts = Repuestos.objects.all()
+            return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se guardo correctamente', 'repuestos':all_spare_parts})
+   
+    else:
+        spare_part_form = RepuestoIngresoForm(initial =  {
+                                                        'quantity':'ingrese la cantidad', 
+                                                        'machines':spare_part_ingreso.machines.all(), 
+                                                        }
+                                             )
+    return render(request, "AppRepuestos/ingresos_spare_part.html", {'form':spare_part_form, 'spare_part':spare_part_ingreso})  
+# detalle de los repuestps
+class SparePartDetailView(DetailView):
+    model = Repuestos
+    template_name = 'AppRepuestos/detail_spare_part.html'  # Template donde se mostrará la información de la máquina
+    context_object_name = 'repuestos' 
 
+    #borrado de repuestos 
 def delete_spare_part(request, id_part):
     delete_part = Repuestos.objects.get(id = id_part)
     delete_part.delete()

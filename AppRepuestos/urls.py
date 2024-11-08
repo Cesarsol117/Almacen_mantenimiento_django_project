@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from AppRepuestos.views import RepuestosListView, SparePartDetailView,search_for_spare_parts , delete_spare_part,create_spare_parts, update_spare_parts, ingreso_spare_parts
+from AppRepuestos.views import RepuestosListView, SparePartDetailView,search_for_spare_parts , delete_spare_part,create_spare_parts, update_spare_parts, ingreso_spare_parts, spare_parts_return
 
 urlpatterns = [ 
     # Login Log out Register
@@ -28,4 +28,5 @@ urlpatterns = [
     path("ingreso_spare_part/<id_part>", ingreso_spare_parts, name="spare_parts_ingreso"),
     path("delete_spare_part/<id_part>", delete_spare_part, name="delete_parts_update"),
     path("search_spare_part/", search_for_spare_parts, name="search_parts_update"),
+    path("return_spare_part/<id_part>", spare_parts_return, name="spare_parts_return"),
 ]

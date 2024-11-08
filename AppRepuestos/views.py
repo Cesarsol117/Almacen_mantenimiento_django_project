@@ -1,7 +1,8 @@
+from django.utils import timezone
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from AppRepuestos.forms import RepuestoCreateForm, RepuestoIngresoForm
+from AppRepuestos.forms import RepuestoCreateForm, RepuestoIngresoReturnForm
 from .models import Repuestos
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 # Create your views here.
@@ -84,7 +85,7 @@ def update_spare_parts(request, identy):
 def ingreso_spare_parts(request, id_part):
     spare_part_ingreso =  Repuestos.objects.get(id = id_part)
     if request.method == 'POST':
-        spare_part_form = RepuestoIngresoForm(request.POST)
+        spare_part_form = RepuestoIngresoReturnForm(request.POST)
         if spare_part_form.is_valid():
             data_ingreso_spare_part = spare_part_form.cleaned_data
             print(data_ingreso_spare_part)
@@ -99,12 +100,44 @@ def ingreso_spare_parts(request, id_part):
             return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se guardo correctamente', 'repuestos':all_spare_parts})
    
     else:
-        spare_part_form = RepuestoIngresoForm(initial =  {
+        spare_part_form = RepuestoIngresoReturnForm(initial =  {
                                                         'quantity':'ingrese la cantidad', 
                                                         'machines':spare_part_ingreso.machines.all(), 
                                                         }
                                              )
     return render(request, "AppRepuestos/ingresos_spare_part.html", {'form':spare_part_form, 'spare_part':spare_part_ingreso})  
+
+def spare_parts_return(request, id_part):
+    spare_part_return =  Repuestos.objects.get(id = id_part)
+    if request.method == 'POST':
+        spare_part_form = RepuestoIngresoReturnForm(request.POST)
+        if spare_part_form.is_valid():
+            data_ingreso_spare_part = spare_part_form.cleaned_data
+            
+            spare_part_return.quantity       = spare_part_return.quantity - data_ingreso_spare_part['quantity']
+            spare_part_return.date_to_out       = timezone.now()
+            print(spare_part_return.quantity)
+            
+            if spare_part_return.quantity == 0:
+                spare_part_return.available = False
+            else:
+                spare_part_return.available = True
+            print(spare_part_return.available)
+            spare_part_return.save()
+            registro = f'Salida de {spare_part_return}'
+            print(registro)
+            all_spare_parts = Repuestos.objects.all()
+            return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se guardo correctamente', 'repuestos':all_spare_parts, 'registro':registro})
+   
+    else:
+        spare_part_form = RepuestoIngresoReturnForm(initial =  {
+                                                            'quantity':'ingrese la cantidad', 
+                                                            'machines':spare_part_return.machines.all(), 
+                                                            }
+                                                    )
+    return render(request, "AppRepuestos/return_spare_part.html", {'form':spare_part_form, 'spare_part':spare_part_return})
+
+
 # detalle de los repuestps
 class SparePartDetailView(DetailView):
     model = Repuestos

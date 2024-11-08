@@ -17,4 +17,5 @@ class Repuestos(models.Model):
     notes               = models.TextField(blank=True, null=True, verbose_name='Notas Adicionales')
     machines =            models.ManyToManyField(Machine, related_name='repuestos')
     def __str__(self):
-        return f'{self.name_spare_part }+ [{self.code}]'
+        return f'{self.name_spare_part } {self.code} {self.date_to_out} {self.quantity}'
+

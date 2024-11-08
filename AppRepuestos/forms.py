@@ -16,8 +16,8 @@ class RepuestoCreateForm(forms.Form):
     # class Meta:
     #     model = Repuestos
     #     fields = ['name_spare_part', 'quantity', 'machines', 'notes']
-class RepuestoIngresoForm(forms.Form):
+class RepuestoIngresoReturnForm(forms.Form):
     
-    quantity = forms.IntegerField(min_value=0, label='Cantidad A ingresar', initial='',)
+    quantity = forms.IntegerField(min_value=0, label='Cantidad', initial='',)
     machines = forms.ModelMultipleChoiceField(queryset=Machine.objects.all(), label='Máquinas Asociadas')
     

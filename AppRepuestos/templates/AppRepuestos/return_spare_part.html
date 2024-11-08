@@ -1,0 +1,45 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Actualizar Repuestos</h1>
+{% endblock %}
+{% block contenido1 %}
+<a class ="btn btn-primary" href= "{% url 'spare_parts_list' %}">Todos Los repuestos</a>
+    <div class="box-formulario">
+        <h2>Actualizar Repuestos: {{ spare_part.name_spare_part }}</h2>
+        <form action="{% url 'spare_parts_return'  spare_part.id %}" method="POST">
+            {% csrf_token %}
+            <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
+            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            <p>Nombre: {{ spare_part.name_spare_part }}</p>
+            <p>Cantidad: {{ spare_part.quantity }}</p>
+            {{ form.as_p }}
+            
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Actualizar
+            </button>
+              <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Guardar Cambios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    ¿Desea Guardar Cambios?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <input class="btn btn-success" type="submit" value="Actualizar" pla>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+
+        </form>
+    </div>
+{% endblock contenido1 %}

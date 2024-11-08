@@ -27,10 +27,10 @@
                 <th scope="col">Repuestos</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Maquina</th>
-                <th scope="col">Fecha </th>
+                <th scope="col">Fecha de salida repuestos</th>
                 <th scope="col">Disponible </th>
-                <th scope="col">Acción: Borrar</th>  
-                <th scope="col">Acción: Editar</th>   
+                <th scope="col">Salida de Repuestos</th>  
+                <th scope="col">Ingresar Repuestos</th>   
     
             </tr>
             </thead>
@@ -48,7 +48,7 @@
                             {{ machine.name }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     </td> 
-                    <td>{{ spare_part.date_to_register }}</td> 
+                    <td>{{ spare_part.date_to_out }}</td> 
                     <td>{% if spare_part.available %}
                         <svg xmlns="http://www.w3.org/2000/svg" x-bind:width="size" x-bind:height="size" viewBox="0 0 24 24" fill="none" stroke="currentColor" x-bind:stroke-width="stroke" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
                             <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95"></path>
@@ -69,32 +69,11 @@
                         {% endif %}</p>
                     </td> 
                     <td>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Borrar
-                        </button>
-                          <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Guardar Cambios</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                ¿Desea Guardar Cambios?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <a class ="btn btn-danger" href= "{% url 'delete_parts_update' spare_part.id %}">Borrar</a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        
+                        <a class ="btn btn-info" href= "{% url 'spare_parts_return'  spare_part.id %}">Salida</a>
                     </td>
-                    <td><a class ="btn btn-success" href= "{% url 'spare_parts_update' spare_part.id %}">Editar</a>
+                    <td>
                         <a class ="btn btn-warning" href= "{% url 'spare_parts_ingreso' spare_part.id %}">ingresar</a>
-                        <a class ="btn btn-info" href= "{% url 'spare_parts_ingreso' spare_part.id %}">salida</a>
+                        
                     </td>
                 </tr>
                 {% endfor %}
@@ -105,6 +84,7 @@
         
         <p>
             {{ mensaje }}
+            {{ registro }}
         </p>
     </div>
 {% endblock contenido1 %}

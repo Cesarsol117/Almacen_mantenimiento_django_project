@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from AppRepuestos.forms import RepuestoCreateForm, RepuestoIngresoReturnForm
-from .models import Repuestos
+from .models import RegistroEntradasSalidas, Repuestos
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 # Create your views here.
 
@@ -87,15 +87,28 @@ def ingreso_spare_parts(request, id_part):
     if request.method == 'POST':
         spare_part_form = RepuestoIngresoReturnForm(request.POST)
         if spare_part_form.is_valid():
-            data_ingreso_spare_part = spare_part_form.cleaned_data
+            data_ingreso_spare_part                 = spare_part_form.cleaned_data
             print(data_ingreso_spare_part)
-            spare_part_ingreso.quantity       = spare_part_ingreso.quantity + data_ingreso_spare_part['quantity']
+            spare_part_ingreso.quantity             += data_ingreso_spare_part['quantity']
             print(spare_part_ingreso.quantity)
+            spare_part_ingreso.date_to_register     = timezone.now()
+            maquinas                                = data_ingreso_spare_part['machines']
+            
             if data_ingreso_spare_part['quantity'] == 0:
                 spare_part_ingreso.available = False
             else:
                 spare_part_ingreso.available = True
             spare_part_ingreso.save()
+            
+            registro_de_entrada = RegistroEntradasSalidas.objects.create(
+                tipo_movimiento = 'entrada',
+                cantidad = data_ingreso_spare_part['quantity'],
+                date_to_movent = spare_part_ingreso.date_to_register,
+                spare_part_relation = spare_part_ingreso,
+            )
+            registro_de_entrada.machine_relation.set(maquinas)
+            registro_de_entrada.save()
+            
             all_spare_parts = Repuestos.objects.all()
             return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se guardo correctamente', 'repuestos':all_spare_parts})
    
@@ -107,35 +120,54 @@ def ingreso_spare_parts(request, id_part):
                                              )
     return render(request, "AppRepuestos/ingresos_spare_part.html", {'form':spare_part_form, 'spare_part':spare_part_ingreso})  
 
-def spare_parts_return(request, id_part):
-    spare_part_return =  Repuestos.objects.get(id = id_part)
+def out_spare_parts(request, id_part):
+    out_spare_part =  Repuestos.objects.get(id = id_part)
     if request.method == 'POST':
         spare_part_form = RepuestoIngresoReturnForm(request.POST)
         if spare_part_form.is_valid():
-            data_ingreso_spare_part = spare_part_form.cleaned_data
+            data_form_out_spare_part = spare_part_form.cleaned_data
             
-            spare_part_return.quantity       = spare_part_return.quantity - data_ingreso_spare_part['quantity']
-            spare_part_return.date_to_out       = timezone.now()
-            print(spare_part_return.quantity)
+            out_spare_part.quantity -= data_form_out_spare_part['quantity']
+            out_spare_part.date_to_out       = timezone.now()
+            maquinas = data_form_out_spare_part['machines']
             
-            if spare_part_return.quantity == 0:
-                spare_part_return.available = False
+            if out_spare_part.quantity == 0:
+                out_spare_part.available = False
             else:
-                spare_part_return.available = True
-            print(spare_part_return.available)
-            spare_part_return.save()
-            registro = f'Salida de {spare_part_return}'
+                out_spare_part.available = True
+            
+            out_spare_part.save()
+            
+            registro = f'Salida de {data_form_out_spare_part["quantity"]} del repuesto {out_spare_part.name_spare_part}'
             print(registro)
+            
+            registro_de_salida = RegistroEntradasSalidas.objects.create(
+                tipo_movimiento = 'salida',
+                cantidad = data_form_out_spare_part['quantity'],
+                date_to_movent = out_spare_part.date_to_out,
+                spare_part_relation = out_spare_part,
+            )
+            registro_de_salida.machine_relation.set(maquinas)
+            registro_de_salida.save()
+            
             all_spare_parts = Repuestos.objects.all()
             return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se guardo correctamente', 'repuestos':all_spare_parts, 'registro':registro})
    
     else:
         spare_part_form = RepuestoIngresoReturnForm(initial =  {
                                                             'quantity':'ingrese la cantidad', 
-                                                            'machines':spare_part_return.machines.all(), 
+                                                            'machines':out_spare_part.machines.all(), 
                                                             }
                                                     )
-    return render(request, "AppRepuestos/return_spare_part.html", {'form':spare_part_form, 'spare_part':spare_part_return})
+    return render(request, "AppRepuestos/out_spare_part.html", {'form':spare_part_form, 'spare_part':out_spare_part})
+
+# detalle de registro de repuestos
+
+class RegistroEntradasSalidasListlView(ListView):
+    model = RegistroEntradasSalidas
+    template_name = "AppRepuestos/detail_register_out.html"
+    context_object_name = 'register'
+    ordering = ["tipo_movimiento"]
 
 
 # detalle de los repuestps
@@ -144,7 +176,7 @@ class SparePartDetailView(DetailView):
     template_name = 'AppRepuestos/detail_spare_part.html'  # Template donde se mostrará la información de la máquina
     context_object_name = 'repuestos' 
 
-    #borrado de repuestos 
+#borrado de repuestos 
 def delete_spare_part(request, id_part):
     delete_part = Repuestos.objects.get(id = id_part)
     delete_part.delete()

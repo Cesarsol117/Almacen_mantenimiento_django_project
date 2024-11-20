@@ -8,7 +8,6 @@
     <div>
         <a class ="btn btn-success" href= "{% url 'spare_parts_add' %}">Añadir Repuesto</a>
         <a class ="btn btn-primary" href= "{% url 'spare_parts_list' %}">Todos Los repuestos</a>
-        <a class ="btn btn-primary" href= "{% url 'detail_register_spare_parts' %}">historial de salidas</a>
         
     </div>
     
@@ -24,7 +23,7 @@
         <table class="table table-bordered border-primary">
             <thead>
             <tr>
-                <th scope="col">Codigo</th>
+                <th scope="col">Tipo de tipo_movimiento</th>
                 <th scope="col">Repuestos</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Maquina</th>
@@ -38,19 +37,19 @@
     
             
             <tbody>
-                {% for spare_part in repuestos %}
+                {% for list_out_spare_part in register %}
                 <tr>
                     
-                    <td>{{ spare_part.code }}</td> 
-                    <td><a href="{% url 'spare_parts_detail' spare_part.id %}">{{ spare_part.name_spare_part }}</a></td> 
-                    <td>{{ spare_part.quantity}}</td> 
+                    <td>{{ list_out_spare_part.tipo_movimiento }}</td> 
+                    <td><a href="{% url 'spare_parts_detail' list_out_spare_part.spare_part_relation.id %}">{{ list_out_spare_part.spare_part_relation.name_spare_part }}</a></td> 
+                    <td>{{ list_out_spare_part.cantidad }}</td> 
                     <td>
-                        {% for machine in spare_part.machines.all %}
+                        {% for machine in list_out_spare_part.machine_relation.all %}
                             {{ machine.name }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     </td> 
-                    <td>{{ spare_part.date_to_out }}</td> 
-                    <td>{% if spare_part.available %}
+                    <td>{{ list_out_spare_part.date_to_movent }}</td> 
+                    <td>{% if list_out_spare_part %}
                         <svg xmlns="http://www.w3.org/2000/svg" x-bind:width="size" x-bind:height="size" viewBox="0 0 24 24" fill="none" stroke="currentColor" x-bind:stroke-width="stroke" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
                             <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95"></path>
                             <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44"></path>
@@ -70,11 +69,11 @@
                         {% endif %}</p>
                     </td> 
                     <td>
-                        <a class ="btn btn-info" href= "{% url 'out_spare_parts'  spare_part.id %}">Salida</a>
+                        <a class ="btn btn-info" href= "#">Salida</a>
                     </td>
                     <td>
-                        <a class ="btn btn-warning" href= "{% url 'spare_parts_ingreso' spare_part.id %}">ingresar</a>
-                        <a class ="btn btn-info" href= "{% url 'spare_parts_list' %}">Devoluciones</a>
+                        <a class ="btn btn-warning" href= "#">ingresar</a>
+                        <a class ="btn btn-info" href= "#">Devoluciones</a>
                     </td>
                 </tr>
                 {% endfor %}

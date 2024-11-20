@@ -15,11 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from AppRepuestos.views import RepuestosListView, SparePartDetailView,search_for_spare_parts , delete_spare_part,create_spare_parts, update_spare_parts, ingreso_spare_parts, spare_parts_return
+from AppRepuestos.views import RepuestosListView, SparePartDetailView, RegistroEntradasSalidasListlView,search_for_spare_parts , delete_spare_part,create_spare_parts, update_spare_parts, ingreso_spare_parts, out_spare_parts
 
 urlpatterns = [ 
     # Login Log out Register
     path('list_spare_part/', RepuestosListView.as_view(), name='spare_parts_list'),
+    path('detail_out_spare_part/', RegistroEntradasSalidasListlView.as_view(), name='detail_register_spare_parts'),
     path('detail_spare_part/detalle/<int:pk>/', SparePartDetailView.as_view(), name='spare_parts_detail'),
     # path('add_spare_part/', RepuestosCreateView.as_view(), name='spare_parts_add'),
     # path('update-spare-part//editar/<int:pk>', RepuestosUpdateView.as_view(), name='spare_parts_update'),
@@ -28,5 +29,5 @@ urlpatterns = [
     path("ingreso_spare_part/<id_part>", ingreso_spare_parts, name="spare_parts_ingreso"),
     path("delete_spare_part/<id_part>", delete_spare_part, name="delete_parts_update"),
     path("search_spare_part/", search_for_spare_parts, name="search_parts_update"),
-    path("return_spare_part/<id_part>", spare_parts_return, name="spare_parts_return"),
+    path("out_spare_part/<id_part>", out_spare_parts, name="out_spare_parts"),
 ]

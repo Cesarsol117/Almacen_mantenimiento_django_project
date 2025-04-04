@@ -21,3 +21,6 @@ class RepuestoIngresoReturnForm(forms.Form):
     quantity = forms.IntegerField(min_value=0, label='Cantidad', initial='',)
     machines = forms.ModelMultipleChoiceField(queryset=Machine.objects.all(), label='Máquinas Asociadas')
     
+class DevolucionesRepuestosForm(forms.Form):
+    quantity = forms.IntegerField(min_value=0, label='Cantidad a devolver',)
+    machines = forms.ModelMultipleChoiceField(queryset=Machine.objects.all(), label='Máquinas Asociadas')

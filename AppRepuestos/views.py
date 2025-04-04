@@ -1,8 +1,8 @@
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 
-from AppRepuestos.forms import RepuestoCreateForm, RepuestoIngresoReturnForm
+from AppRepuestos.forms import RepuestoCreateForm, RepuestoIngresoReturnForm, DevolucionesRepuestosForm
 from .models import RegistroEntradasSalidas, Repuestos
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 # Create your views here.
@@ -23,7 +23,7 @@ class RepuestosListView(ListView):
 #     fields = ['name_spare_part', 'quantity', 'machines', 'code','storage_location','notes']
 #     template_name = "AppRepuestos/spare_parts_update.html"
 #     success_url = reverse_lazy('spare_parts_list')
-    
+#creacion
 def create_spare_parts(request):
     if request.method=='POST':
         full_form = RepuestoCreateForm(request.POST)
@@ -49,7 +49,7 @@ def create_spare_parts(request):
         empty_form = RepuestoCreateForm()
     
     return render(request, "AppRepuestos/new_spare_part.html", {'vacio_form':empty_form})
-
+#actualizacion
 def update_spare_parts(request, identy):
     edit_spare_part =  Repuestos.objects.get(id = identy)
     if request.method == 'POST':
@@ -110,7 +110,8 @@ def ingreso_spare_parts(request, id_part):
             registro_de_entrada.save()
             
             all_spare_parts = Repuestos.objects.all()
-            return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se guardo correctamente', 'repuestos':all_spare_parts})
+            # return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se guardo correctamente', 'repuestos':all_spare_parts})
+            return redirect('spare_parts_list')
    
     else:
         spare_part_form = RepuestoIngresoReturnForm(initial =  {
@@ -119,7 +120,7 @@ def ingreso_spare_parts(request, id_part):
                                                         }
                                              )
     return render(request, "AppRepuestos/ingresos_spare_part.html", {'form':spare_part_form, 'spare_part':spare_part_ingreso})  
-
+# salida
 def out_spare_parts(request, id_part):
     out_spare_part =  Repuestos.objects.get(id = id_part)
     if request.method == 'POST':
@@ -151,8 +152,8 @@ def out_spare_parts(request, id_part):
             registro_de_salida.save()
             
             all_spare_parts = Repuestos.objects.all()
-            return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se guardo correctamente', 'repuestos':all_spare_parts, 'registro':registro})
-   
+            # return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se guardo correctamente', 'repuestos':all_spare_parts, 'registro':registro})
+            return redirect('spare_parts_list')
     else:
         spare_part_form = RepuestoIngresoReturnForm(initial =  {
                                                             'quantity':'ingrese la cantidad', 
@@ -160,9 +161,46 @@ def out_spare_parts(request, id_part):
                                                             }
                                                     )
     return render(request, "AppRepuestos/out_spare_part.html", {'form':spare_part_form, 'spare_part':out_spare_part})
+# devolucion de salidas
+def return_spare_part(request, id_ret):
+    spare_part_devolucion =  Repuestos.objects.get(id = id_ret)
+    
+    registro_salida = RegistroEntradasSalidas.objects.filter(spare_part_relation=spare_part_devolucion, tipo_movimiento = 'salida').order_by('-date_to_movent').first()
+    print(registro_salida)
+    if request.method == 'POST':
+        spare_part_dev_form = DevolucionesRepuestosForm(request.POST)
+        if spare_part_dev_form.is_valid():
+            data_dev_spare_part = spare_part_dev_form.cleaned_data
+            spare_part_devolucion.quantity += data_dev_spare_part['quantity']
+            if spare_part_dev_form['quantity'] == 0:
+                spare_part_devolucion.available = False
+            else:
+                spare_part_devolucion.available = True
+            spare_part_devolucion.date_to_register = timezone.now()
+            maquina = data_dev_spare_part['machines']
+            spare_part_devolucion.save()
+            
+            registro_de_devoluciones = RegistroEntradasSalidas.objects.create(
+                tipo_movimiento = 'devoluciones',
+                cantidad = data_dev_spare_part['quantity'],
+                date_to_movent = spare_part_devolucion.date_to_register,
+                spare_part_relation = spare_part_devolucion,    
+            )
+            
+            registro_de_devoluciones.machine_relation.set(maquina)
+            registro_de_devoluciones.save()
+            return redirect('spare_parts_list')
+    else:
+        spare_part_dev_form = DevolucionesRepuestosForm(initial={
+                'quantity':'ingrese la cantidad',
+                'machines':spare_part_devolucion.machines.all(),
+        }
+            
+        )    
+    return render(request, "AppRepuestos/devoluciones_spare_part.html", {'form':spare_part_dev_form, 'spare_part':spare_part_devolucion, 'spare_relation':registro_salida})  
+
 
 # detalle de registro de repuestos
-
 class RegistroEntradasSalidasListlView(ListView):
     model = RegistroEntradasSalidas
     template_name = "AppRepuestos/detail_register_out.html"
@@ -184,9 +222,9 @@ def delete_spare_part(request, id_part):
     return render(request, "AppRepuestos/list_spare_parts.html", {'mensaje':'se borro correctamente', 'repuestos':all_spare_parts})
 
 def search_for_spare_parts(request):
-    if request.GET['spare_part_name']:
-        spare_search = request.GET['spare_part_name']
-        find_spare_part = Repuestos.objects.filter(name_spare_part__icontains = spare_search)
+    if request.GET['code']:
+        spare_search = request.GET['code']
+        find_spare_part = Repuestos.objects.filter(code__icontains = spare_search)
         return render(request, "AppRepuestos/list_spare_parts.html",{'repuestos':find_spare_part})
     else:
         return render(request, "AppRepuestos/list_spare_parts.html",{'mensaje':'din Repuestos'})

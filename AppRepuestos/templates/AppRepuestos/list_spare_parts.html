@@ -14,7 +14,7 @@
     
     <div class="box-formulario">
             <form action="{% url 'search_parts_update' %}" method="GET">
-                <input type="text" name="spare_part_name" id="busqueda_repuesto" placeholder="Nombre del Repuesto">
+                <input type="text" name="code" id="busqueda_repuesto" placeholder="Codigo del repuesto">
                 <input class="btn btn-primary" type="submit" value="Buscar Repuesto">
             </form>
     </div>
@@ -63,8 +63,9 @@
                             <path d="M9 12l2 2l4 -4"></path>
                           </svg>
                         {% else %}
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" x-bind:width="size" x-bind:height="size" viewBox="0 0 24 24" fill="none" stroke="currentColor" x-bind:stroke-width="stroke" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
+                            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                            <path d="M10 10l4 4m0 -4l-4 4"></path>
                           </svg>
                           
                         {% endif %}</p>
@@ -74,7 +75,7 @@
                     </td>
                     <td>
                         <a class ="btn btn-warning" href= "{% url 'spare_parts_ingreso' spare_part.id %}">ingresar</a>
-                        <a class ="btn btn-info" href= "{% url 'spare_parts_list' %}">Devoluciones</a>
+                        
                     </td>
                 </tr>
                 {% endfor %}

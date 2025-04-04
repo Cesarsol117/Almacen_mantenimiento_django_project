@@ -2,23 +2,29 @@
 {% load static %}
 
 {% block principal %}
-    <h1>Salida Repuestos</h1>
+    <h1>Devoulucion Repuestos</h1>
 {% endblock %}
 {% block contenido1 %}
+<a class ="btn btn-primary" href= "{% url 'detail_register_spare_parts' %}">Atras</a>
 <a class ="btn btn-primary" href= "{% url 'spare_parts_list' %}">Todos Los repuestos</a>
     <div class="box-formulario">
-        <h2>Salida de: {{ spare_part.name_spare_part }}</h2>
-        <form action="{% url 'out_spare_parts'  spare_part.id %}" method="POST">
+        <h2>Devolver Repuestos: {{ spare_part.name_spare_part }}</h2>
+        <form action="{% url 'devolucion_spare_parts'  spare_part.id %}" method="POST">
             {% csrf_token %}
             <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
             <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
             <p>Nombre: {{ spare_part.name_spare_part }}</p>
-            <p>Cantidad en stock: {{ spare_part.quantity }}</p>
+            
+            <p>Cantidad Sacada: {{ spare_relation.cantidad }}</p>
+
+            <p>Fecha de salida {{ spare_relation.date_to_movent }}</p>
+            
+            
             {{ form.as_p }}
             
 
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Aceptar
+                Devolver
             </button>
               <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

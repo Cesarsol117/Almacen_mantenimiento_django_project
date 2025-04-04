@@ -23,14 +23,14 @@
         <table class="table table-bordered border-primary">
             <thead>
             <tr>
+                <th scope="col">Código</th>
                 <th scope="col">Tipo de tipo_movimiento</th>
                 <th scope="col">Repuestos</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Maquina</th>
-                <th scope="col">Fecha de salida repuestos</th>
-                <th scope="col">Disponible </th>
-                <th scope="col">Salida de Repuestos</th>  
-                <th scope="col">Ingresar Repuestos</th>   
+                <th scope="col"><a href="#">Fecha de salida repuestos</a></th>
+                
+                <th scope="col">Devoluciones</th>   
     
             </tr>
             </thead>
@@ -40,6 +40,7 @@
                 {% for list_out_spare_part in register %}
                 <tr>
                     
+                    <td>{{ list_out_spare_part.spare_part_relation.code }}</td> 
                     <td>{{ list_out_spare_part.tipo_movimiento }}</td> 
                     <td><a href="{% url 'spare_parts_detail' list_out_spare_part.spare_part_relation.id %}">{{ list_out_spare_part.spare_part_relation.name_spare_part }}</a></td> 
                     <td>{{ list_out_spare_part.cantidad }}</td> 
@@ -49,31 +50,16 @@
                         {% endfor %}
                     </td> 
                     <td>{{ list_out_spare_part.date_to_movent }}</td> 
-                    <td>{% if list_out_spare_part %}
-                        <svg xmlns="http://www.w3.org/2000/svg" x-bind:width="size" x-bind:height="size" viewBox="0 0 24 24" fill="none" stroke="currentColor" x-bind:stroke-width="stroke" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
-                            <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95"></path>
-                            <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44"></path>
-                            <path d="M3.69 15.44a9 9 0 0 0 1.95 2.92"></path>
-                            <path d="M8.56 20.31a9 9 0 0 0 3.44 .69"></path>
-                            <path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95"></path>
-                            <path d="M20.31 15.44a9 9 0 0 0 .69 -3.44"></path>
-                            <path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92"></path>
-                            <path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69"></path>
-                            <path d="M9 12l2 2l4 -4"></path>
-                          </svg>
+                    
+                    
+                    <td>
+                        {% if list_out_spare_part.tipo_movimiento == "entrada" or list_out_spare_part.tipo_movimiento == "devoluciones" %}
+                                <p>No disponible</p>
                         {% else %}
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                          </svg>
-                          
-                        {% endif %}</p>
-                    </td> 
-                    <td>
-                        <a class ="btn btn-info" href= "#">Salida</a>
-                    </td>
-                    <td>
-                        <a class ="btn btn-warning" href= "#">ingresar</a>
-                        <a class ="btn btn-info" href= "#">Devoluciones</a>
+                                <a class ="btn btn-info" href= "{% url 'devolucion_spare_parts' list_out_spare_part.spare_part_relation.id %}">Devoluciones</a>
+                        {% endif %}
+                        
+                        
                     </td>
                 </tr>
                 {% endfor %}

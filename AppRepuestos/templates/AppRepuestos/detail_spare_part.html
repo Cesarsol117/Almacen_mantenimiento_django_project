@@ -44,59 +44,58 @@
           <p class="card-text"><strong>Descripcion:</strong> {{ repuestos.notes  }}</p>
           <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
-      </div>
+    </div>
       <h3>Repuestos Asociados:</h3>
-<table class="table table-bordered border-primary">
-    <thead>
-        <tr>
-            <th>Nombre Maquina</th>
-            <th>Ubicacion</th>
-            <th>Descripcion</th>
-            <th>Servicios</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for spare_part in repuestos.machines.all %}
-        <tr>
-            <td>{{ spare_part.name }}</td>
-            <td>{{ spare_part.site_room }}</td>
-            <td>{{ spare_part.description }}</td>
-            <td>{{ spare_part.service }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4">No hay repuestos asociados a esta máquina.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-      <div class="">
-            <a class="btn btn-primary" href="{% url 'spare_parts_list' %}">Volver a la lista</a>
-            <a class="btn btn-primary" href="{% url 'spare_parts_update' repuestos.id %}">Actualizar Repuestos</a>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Borrar
-            </button>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Guardar Cambios</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            ¿Desea Guardar Cambios?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <a class ="btn btn-danger" href= "{% url 'delete_parts_update' repuestos.id %}">Borrar</a>
-                            
-                        </div>
+    <table class="table table-bordered border-primary">
+        <thead>
+            <tr>
+                <th>Nombre Maquina</th>
+                <th>Ubicacion</th>
+                <th>Descripcion</th>
+                <th>Servicios</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for spare_part in repuestos.machines.all %}
+            <tr>
+                <td>{{ spare_part.name }}</td>
+                <td>{{ spare_part.site_room }}</td>
+                <td>{{ spare_part.description }}</td>
+                <td>{{ spare_part.service }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No hay repuestos asociados a esta máquina.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="">
+        <a class="btn btn-primary" href="{% url 'spare_parts_list' %}">Volver a la lista</a>
+        <a class="btn btn-primary" href="{% url 'spare_parts_update' repuestos.id %}">Actualizar Repuestos</a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Borrar
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Guardar Cambios</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Desea Guardar Cambios?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <a class ="btn btn-danger" href= "{% url 'delete_parts_update' repuestos.id %}">Borrar</a>
+                        
                     </div>
                 </div>
             </div>
-        
         </div>
+    </div>
       
 
       

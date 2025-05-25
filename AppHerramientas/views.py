@@ -1,14 +1,16 @@
+from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
-from AppHerramientas.models import Tools
-from AppHerramientas.forms import ToolsForm
+from AppHerramientas.models import PrestamoHerramienta, Tools
+from AppHerramientas.forms import ToolsForm, LoanForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin #vistas basadas en clases
 from django.contrib.auth.decorators import login_required #vistas basadas en funciones
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 
 # Create your views here.
 @login_required
 def inicio_herramientas(request):
-    return render(request, "InicioHerramientas.html")
+    return render(request, "InicioHerramientas.html", {'mensaje': request.user})
 
 def create_tools(request):
     if request.method=='POST':
@@ -16,7 +18,7 @@ def create_tools(request):
         if full_form.is_valid():
             data_form = full_form.cleaned_data
             
-            nuevo_curso = Tools(nombre_herramienta = data_form['name_tools'], cantidad = data_form['cantidad'])##estos datos deben ser iguales a los que se coloquen  en el forms.py
+            nuevo_curso = Tools(nombre_herramienta = data_form['name_tools'], cantidad = data_form['cantidad'], codigo= data_form['codigo'])##estos datos deben ser iguales a los que se coloquen  en el forms.py
             nuevo_curso.save()
             return render(request, 'InicioHerramientas.html', {'mensaje':'se guardo correctamente'})
     else:
@@ -46,6 +48,8 @@ def edit_tools(request, identification):
         form_edit = ToolsForm(request.POST)
         if form_edit.is_valid():
             edit_data = form_edit.cleaned_data
+            
+            tools_to_edit.codigo = edit_data['codigo']
             tools_to_edit.nombre_herramienta = edit_data['name_tools']
             tools_to_edit.cantidad           = edit_data['cantidad']
             tools_to_edit.save()
@@ -54,7 +58,45 @@ def edit_tools(request, identification):
         
     else:
         form_edit = ToolsForm(initial={
+            'codigo':tools_to_edit.codigo,
             'name_tools':tools_to_edit.nombre_herramienta, 
             'cantidad':tools_to_edit.cantidad
             })
     return render(request, 'editTools.html', {'edit_form':form_edit, 'tools_to_edit':tools_to_edit})
+
+@login_required
+def prestamo_herramienta(request, id):
+    tools_to_lend = Tools.objects.get(id=id)
+    if request.method == 'POST':
+        form_lend_edit = LoanForm(request.POST)
+        if form_lend_edit.is_valid():
+            edit_data_loan = form_lend_edit.cleaned_data
+            tools_to_lend.cantidad -= edit_data_loan['cantidad_a_prestar']
+            usuario_receptor = edit_data_loan['a_quien_se_presta']
+            
+            if tools_to_lend.cantidad == 0:
+                tools_to_lend.disponible = False
+            else:
+                tools_to_lend.disponible = True
+                
+            tools_to_lend.save()
+            regristro_de_prestamo = PrestamoHerramienta.objects.create(
+                herramienta=tools_to_lend,
+                tipo_movimiento='prestamo',
+                cantidad=edit_data_loan['cantidad_a_prestar'],
+                prestado_por=request.user,
+                prestado_a=usuario_receptor,
+                fecha = timezone.now()
+                                            )
+        return redirect('list_tools')
+    else:
+        form_lend_edit = LoanForm()
+    return render(request, "lendTools.html", {'form':form_lend_edit, 'lend_tools':tools_to_lend})
+def devoluciones_herramienta(request, id):
+    pass
+
+class ToolsDetailView(DetailView):
+    model = Tools
+    template_name = 'DetailTools.html'  # Template donde se mostrará la información de la máquina
+    context_object_name = 'herramientas'
+    

@@ -1,6 +1,7 @@
 from django.db import models
 
 from AppMaquinas.models import Machine
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -25,7 +26,7 @@ class RegistroEntradasSalidas(models.Model):
         ('salida', 'Salida'),
         ('devoluciones', 'Devoluciones')
     ]
-    
+    was_who = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     tipo_movimiento = models.CharField(max_length=20, choices=TIPO_MOVIMIENTO_CHOICES, null=True)
     cantidad = models.PositiveIntegerField(null=True)
     date_to_movent = models.DateTimeField(auto_now_add=True, null=True)

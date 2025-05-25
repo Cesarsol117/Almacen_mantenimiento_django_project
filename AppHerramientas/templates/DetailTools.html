@@ -1,0 +1,59 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Herramientas actuales</h1>
+{% endblock %}
+
+{% block contenido1 %}
+    <div class="card mb-3">
+        <p><strong>Foto:</strong></p>
+        <div class="alineacion">
+
+            {% if machine.machine_photos.all %}
+                {% for  image in machine.machine_photos.all %}           
+                    <img src="{{ image.machine_imagen.url }}" alt="Foto de {{ machine.name }}" width="200px" height="200px" class="card-img-top" >                   
+                {% endfor %}
+            {% else %}
+                <p>No hay foto disponible</p>
+            {% endif %}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Detalles de la herramienta: <br> {{ herramientas.nombre_herramienta }}</h5>
+          <p class="card-text"><strong>Codigo:</strong> {{ herramientas.codigo  }}</p>
+          <p class="card-text"><strong>Cantidad</strong> {{ herramientas.cantidad  }}</p>
+          <p class="card-text"><strong>Disponible:</strong> </p>
+          
+          <!-- <p class="card-text"><strong>Ubicacion:</strong> {{ repuestos.storage_location }}</p>
+          <p class="card-text"><strong>Descripcion:</strong> {{ repuestos.notes  }}</p> -->
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+    </div>
+
+    <div class=""></div>
+        <a class="btn btn-primary" href="#">Volver a la lista</a>
+        <a class="btn btn-primary" href="{% url 'edit_to_tools' herramientas.id %}">Actualizar Herramienta</a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Borrar
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Guardar Cambios</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Desea eliminar {{ herramientas.nombre_herramienta }}?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <a class ="btn btn-danger" href= "{% url 'delete_to_tools' herramientas.id %}">Borrar</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock contenido1 %}

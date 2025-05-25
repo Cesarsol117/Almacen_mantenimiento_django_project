@@ -17,6 +17,7 @@ Including another URLconf
 from django.urls import path
 from AppHerramientas.views import *
 
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', inicio_herramientas, name='home_tools'),
@@ -24,4 +25,8 @@ urlpatterns = [
     path('all_tools/', view_all_tools, name='list_tools'),
     path('delete_tools/<identification>', delete_tools, name='delete_to_tools'),
     path('edit_tools/<identification>', edit_tools, name='edit_to_tools'),
+    # prestamo
+    path('loan_tools/<id>', prestamo_herramienta, name='loan_tools'),
+    # clases
+    path('detail_tools/detalle/<int:pk>/', ToolsDetailView.as_view(), name='tools_detail'),
 ]

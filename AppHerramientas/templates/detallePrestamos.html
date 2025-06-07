@@ -1,0 +1,85 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Listado De Herramientas</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div>
+        <a class ="btn btn-success" href= "{% url 'spare_parts_add' %}">Añadir Repuesto</a>
+        <a class ="btn btn-primary" href= "{% url 'list_tools' %}">Todas las herramientas</a>
+        
+    </div>
+    
+    <div class="box-formulario">
+            <form action="{% url 'search_parts_update' %}" method="GET">
+                <input type="text" name="spare_part_name" id="busqueda_repuesto" placeholder="Nombre del Repuesto">
+                <input class="btn btn-primary" type="submit" value="Buscar Repuesto">
+            </form>
+    </div>
+    
+
+    <div class = "tabla_div">
+        <table class="table table-bordered border-primary">
+            <thead>
+            <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Tipo de tipo_movimiento</th>
+                <th scope="col">Herramienta</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">devuelto?</th>
+                <th scope="col">Usuario que devolvio</th>
+                <th scope="col">Usuario que lo tiene</th>
+                <th scope="col"><a href="#">Fecha</a></th>
+                
+                <th scope="col">Devoluciones</th>   
+    
+            </tr>
+            </thead>
+    
+            
+            <tbody>
+                {% for lista_registro_de_prestamos in register %}
+                <tr>
+                    
+                    <td>{{ lista_registro_de_prestamos.herramienta.codigo }}</td> 
+                    <td>{{ lista_registro_de_prestamos.tipo_movimiento }}</td> 
+                    <td><a href="{% url 'tools_detail' lista_registro_de_prestamos.herramienta.id %}">{{ lista_registro_de_prestamos.herramienta.nombre_herramienta }}</a></td> 
+                    <td>{{ lista_registro_de_prestamos.cantidad }}</td> 
+                    <td>{{ lista_registro_de_prestamos.esta_devuelto }}</td> 
+                    <td>{{ lista_registro_de_prestamos.devolucion_recibida }}</td> 
+                    <td>
+                        {{ lista_registro_de_prestamos.prestado_a }}
+                    </td> 
+                    <td>{{ lista_registro_de_prestamos.fecha }}</td> 
+                    
+                    
+                    <td>
+                        {% if lista_registro_de_prestamos.tipo_movimiento == "devolucion" %}
+                            <span class="badge bg-success">Devuelto</span>
+                        {% else %}
+                                {% if lista_registro_de_prestamos.tipo_movimiento == "prestamo" %}
+                                    {% if not lista_registro_de_prestamos.esta_devuelto %}
+                                        <a class="btn btn-info" href="{% url 'return_tools' lista_registro_de_prestamos.herramienta.id %}">Devoluciones</a>
+                                    {% else %}
+                                        <span class="badge bg-success">Devuelto</span>
+                                    {% endif %}
+                                {% endif %}
+                                
+                        {% endif %}
+                        
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        
+        <p>
+            {{ mensaje }}
+            {{ registro }}
+        </p>
+    </div>
+{% endblock contenido1 %}

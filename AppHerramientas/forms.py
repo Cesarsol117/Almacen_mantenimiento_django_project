@@ -11,3 +11,5 @@ class LoanForm(forms.Form):
     cantidad_a_prestar =  forms.IntegerField(max_value=1000, label="Cantidad a prestar")
     a_quien_se_presta =  forms.ModelChoiceField(queryset=User.objects.all(), label='Usuarios')
     
+class ReturnToolsForm(forms.Form):
+    cantidad_devolver = forms.IntegerField(label='Cantidad a devolver', min_value=1)

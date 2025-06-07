@@ -5,15 +5,28 @@
     <h1>Herramientas</h1>
 {% endblock %}
 {% block contenido1 %}
+
+<div class="nav-bar">
+        
+            
+    <p><a class="btn btn-primary" href="{% url 'list_tools' %}">Listado de Herramientas</a></p>
+    <p><a class="btn btn-primary" href="{% url 'form_tools' %}">Ingresar herramientas</a></p>
+    <p><a class="btn btn-primary" href="{% url 'registro_detalle' %}">Historial de Prestamos</a></p>
+    
+    <p>{{ mensaje }}</p>
+
+</div>
 <div class = "tabla_div">
+
     <table class="table table-bordered border-primary">
         <thead>
         <tr>
             <th scope="col">codigo</th>
             <th scope="col">Nombre Herramientas</th>
             <th scope="col">disponible</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Devolucion</th>  
+            
+            <th scope="col">Cantidad en Stock</th>
+            <!-- <th scope="col">Devolucion</th>   -->
             <th scope="col">Prestamo</th>  
              
 
@@ -27,10 +40,16 @@
                 
                 <td>{{ tools.codigo }}</td> 
                 <td><a href="{% url 'tools_detail' tools.id %}">{{ tools.nombre_herramienta }}</a></td> 
-                <td>{{ tools.disponible}}</td> 
+                <td>{{ tools.disponible }}</td> 
                 <td>{{ tools.cantidad}}</td> 
-                <td><a class ="btn btn-warning" href= "{% url 'delete_to_tools' tools.id %}">Devolucion</a></td>
-                <td><a class ="btn btn-success" href= "{% url 'loan_tools' tools.id %}">Prestamo</a></td>
+                <!-- <td><a class ="btn btn-warning" href= "#">Devolucion</a></td> -->
+                <td>
+                    {% if tools.cantidad == 0 %}
+                        <p>no disponible</p>
+                    {% else %}
+                        <a class ="btn btn-success" href= "{% url 'loan_tools' tools.id %}">Prestamo</a></td>
+                    {% endif %}
+                    
             </tr>
             {% endfor %}
         </tbody>

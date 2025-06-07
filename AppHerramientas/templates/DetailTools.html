@@ -22,7 +22,7 @@
           <h5 class="card-title">Detalles de la herramienta: <br> {{ herramientas.nombre_herramienta }}</h5>
           <p class="card-text"><strong>Codigo:</strong> {{ herramientas.codigo  }}</p>
           <p class="card-text"><strong>Cantidad</strong> {{ herramientas.cantidad  }}</p>
-          <p class="card-text"><strong>Disponible:</strong> </p>
+          <p class="card-text"><strong>Disponible:</strong> {{ herramientas.disponible }}</p>
           
           <!-- <p class="card-text"><strong>Ubicacion:</strong> {{ repuestos.storage_location }}</p>
           <p class="card-text"><strong>Descripcion:</strong> {{ repuestos.notes  }}</p> -->
@@ -31,7 +31,7 @@
     </div>
 
     <div class=""></div>
-        <a class="btn btn-primary" href="#">Volver a la lista</a>
+        <a class="btn btn-primary" href="{% url 'list_tools' %}">Volver a la lista</a>
         <a class="btn btn-primary" href="{% url 'edit_to_tools' herramientas.id %}">Actualizar Herramienta</a>
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Borrar

@@ -24,6 +24,8 @@ class PrestamoHerramienta(models.Model):
     cantidad = models.PositiveIntegerField()
     prestado_por = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='prestado_por')
     prestado_a = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='prestado_a')
+    devolucion_recibida = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='devolucionador')
+    esta_devuelto = models.BooleanField(null=True)
     fecha = models.DateTimeField(auto_now_add=True)
 
     class Meta:

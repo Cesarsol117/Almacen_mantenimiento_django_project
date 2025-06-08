@@ -8,12 +8,20 @@
 
 <div class="nav-bar">
         
-            
-    <p><a class="btn btn-primary" href="{% url 'list_tools' %}">Listado de Herramientas</a></p>
-    <p><a class="btn btn-primary" href="{% url 'form_tools' %}">Ingresar herramientas</a></p>
-    <p><a class="btn btn-primary" href="{% url 'registro_detalle' %}">Historial de Prestamos</a></p>
+    <div>
+        <a class="btn btn-primary" href="{% url 'list_tools' %}">Listado de Herramientas</a>
+        <a class="btn btn-primary" href="{% url 'form_tools' %}">Ingresar herramientas</a>
+        <a class="btn btn-primary" href="{% url 'registro_detalle' %}">Historial de Prestamos</a>
+    </div>        
     
-    <p>{{ mensaje }}</p>
+    <div class="box-formulario">
+        <form action="{% url 'search_tools_update' %}" method="GET">
+            <input type="text" name="codigo" id="busqueda_Herramienta" placeholder="Codigo de la Herramienta">
+            <input class="btn btn-primary" type="submit" value="Buscar herramienta">
+        </form>
+    </div>
+    
+    <!-- <p>{{ mensaje }}</p> -->
 
 </div>
 <div class = "tabla_div">

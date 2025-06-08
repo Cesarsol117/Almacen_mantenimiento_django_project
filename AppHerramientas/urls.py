@@ -29,6 +29,7 @@ urlpatterns = [
     path('loan_tools/<id>', prestamo_herramienta, name='loan_tools'),
     # devolucion
     path("devolucion_tools/<id>", devoluciones_herramienta, name="return_tools"),
+    path("search_tools/", busqueda_herramienta, name='search_tools_update'),
     # clases
     path('detail_tools/detalle/<int:pk>/', ToolsDetailView.as_view(), name='tools_detail'),
     path('detalle_prestamos/', RegistroEntradasSalidasListlView.as_view(), name='registro_detalle'),

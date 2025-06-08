@@ -6,15 +6,15 @@
 {% endblock %}
 {% block contenido1 %}
     <div>
-        <a class ="btn btn-success" href= "{% url 'spare_parts_add' %}">Añadir Repuesto</a>
+        <a class="btn btn-primary" href="{% url 'form_tools' %}">Ingresar herramientas</a>
         <a class ="btn btn-primary" href= "{% url 'list_tools' %}">Todas las herramientas</a>
         
     </div>
     
     <div class="box-formulario">
-            <form action="{% url 'search_parts_update' %}" method="GET">
-                <input type="text" name="spare_part_name" id="busqueda_repuesto" placeholder="Nombre del Repuesto">
-                <input class="btn btn-primary" type="submit" value="Buscar Repuesto">
+            <form action="{% url 'search_tools_update' %}" method="GET">
+                <input type="text" name="codigo" id="busqueda_Herramienta" placeholder="Codigo de la Herramienta">
+                <input class="btn btn-primary" type="submit" value="Buscar herramienta">
             </form>
     </div>
     

@@ -143,4 +143,12 @@ class ToolsDetailView(DetailView):
     model = Tools
     template_name = 'DetailTools.html'  # Template donde se mostrará la información de la máquina
     context_object_name = 'herramientas'
-    
+
+#busqueda de herramienta
+def busqueda_herramienta(request):
+    if request.GET['codigo']:
+        tools_search = request.GET['codigo']
+        find_tools_part = Tools.objects.filter(codigo__icontains = tools_search)
+        return render(request, "listTools.html",{'all_tools':find_tools_part})
+    else:
+        return render(request, "listTools.html",{'mensaje':'Repuesto no encontrado'})   

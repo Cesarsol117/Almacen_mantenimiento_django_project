@@ -5,7 +5,7 @@
     <h1>Salida Repuestos</h1>
 {% endblock %}
 {% block contenido1 %}
-<a class ="btn btn-primary" href= "{% url 'spare_parts_list' %}">Todos Los repuestos</a>
+<a class="btn btn-primary" href="{% url 'list_tools' %}">Listado de Herramientas</a>
     <div class="box-formulario">
         <h2>Salida de: {{ lend_tools.nombre_herramienta }}</h2>
         <form action="{% url 'loan_tools'  lend_tools.id %}" method="POST">

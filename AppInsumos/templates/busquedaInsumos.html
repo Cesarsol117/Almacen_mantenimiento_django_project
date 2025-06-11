@@ -7,8 +7,8 @@
 {% block contenido1 %}
     <div class="box-formulario">
         <form action="{% url 'formulario_busqueda' %}" method="GET">
-            <input type="number" name="comision" id="comision" placeholder="numero de insumo">
-            <input type="submit" value="Buscar">
+            <input type="number" name="codigo_insumo" id="codigo_insumo" placeholder="numero de insumo">
+            <input class="btn btn-info" type="submit" value="Buscar">
         </form>
         <p>{{ mensaje }}</p>
     </div>

@@ -2,11 +2,11 @@
 {% load static %}
 
 {% block principal %}
-    <h1>Curso formulario</h1>
+    <h1>Login</h1>
 {% endblock %}
 {% block contenido1 %}
     <div class="box-formulario">
-        <h2>Formulario Ingreso</h2>
+        <h2>Ingreso a Almacen Mantenimiento</h2>
         <div class="form-floating mb-3" >
             <form href="{% url 'log_in' %}" method="POST">
                 {% csrf_token %}
@@ -14,7 +14,7 @@
                 <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
                 {{ form.as_p }}
 
-                <input type="submit" value="Enviar" >
+                <input class="btn btn-info" type="submit" value="Enviar" >
                 
 
             </form>

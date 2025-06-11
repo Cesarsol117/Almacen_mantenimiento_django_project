@@ -8,7 +8,7 @@
     <div class="box-formulario">
         <h2>Editar Usuario {{ user_name_log }}</h2>
         <div class="">
-            <a class="navbar-brand" href="{% url 'edit_avatar' %}" >
+            <a class="" href="{% url 'edit_avatar' %}" >
               <img src="{{ avatar_image_user }}" alt="" width="190" height="150" class="d-inline-block align-text-top">
               Editar
             </a>
@@ -19,7 +19,7 @@
             <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
             {{ form.as_p }}
 
-            <input type="submit" value="Editar" >
+            <input class="btn btn-warning" type="submit" value="Editar" >
             
 
         </form>

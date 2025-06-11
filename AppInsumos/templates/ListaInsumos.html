@@ -1,0 +1,60 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Insumos</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div>
+        <div>
+            <a class="btn btn-primary" href="{% url 'crear_insumo' %}">Crear Insumo</a>
+            <a class="btn btn-primary" href="{% url 'todos_insumos' %}">Listado Insumos</a>
+        </div>
+        <div class="box-formulario">
+            <form action="{% url 'formulario_busqueda' %}" method="GET">
+                <input type="" name="codigo_insumo" id="codigo_insumo" placeholder="codigo de insumo">
+                <input class="btn btn-info" type="submit" value="Buscar">
+            </form>
+            
+        </div>
+
+    </div>
+    <p>
+        {{ mensaje }}
+    </p>
+    <div class = "tabla_div">
+        <table class="table table-bordered border-primary">
+            <thead>
+            <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Insumos</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Disponible</th>
+                <th scope="col">Butons</th>  
+                <th scope="col">Butons</th>  
+    
+            </tr>
+            </thead>
+    
+            
+            <tbody>
+                {% for insumo in los_insumos %}
+                <tr>
+                    
+                    <td>{{ insumo.codigo_insumo }}</td> 
+                    <td><a href="{% url 'detail_insumo' insumo.id %}">{{ insumo.nombre }}</a></td> 
+                    <td>{{ insumo.cantidad}} {{ insumo.unidad_medida }}</td> 
+                    <td>{{ insumo.disponible}}</td> 
+                    <td>{{ insumo.stock_minimo}}</td>
+                    <td><a class ="btn btn-info" href= "{% url 'update_insumo' insumo.id %}">Prestamo</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <p>
+            {{ mensaje }}
+        </p>
+    </div>
+{% endblock contenido1 %}

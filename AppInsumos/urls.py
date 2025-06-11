@@ -23,11 +23,13 @@ urlpatterns = [
     path('', pagina_inicio, name='home'),
     path('curso/', all_insumos, name='todos_insumos'),
     path('pagina_cursos/', pagina_cursos, name='page_courses'),
-    path('FormularioCursos/', curso_formulario, name='formulario_curso'),
+    # path('FormularioCursos/', curso_formulario, name='formulario_curso'),
     path('busquedaInsumos/', busqueda_insumo, name='busqueda_insumo'),
     path('resultadoBusqeda/', busqueda_formulario, name='formulario_busqueda'),
     # basadas en clases
+    path('insumos/crear/', InsumoCreateView.as_view(), name='crear_insumo'),
     path('editarInsumos/editar/<int:pk>/', InsumoUpdate.as_view(), name='update_insumo'),
     path('eliminarInsumos/editar/<int:pk>/', InsumoDelete.as_view(), name='delete_insumo'),
+    path('detalleInsumos/detalle/<int:pk>/', InsumosDetailView.as_view(), name='detail_insumo'),
 
 ]

@@ -1,0 +1,85 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Listado De Prestamo y Devoluciones</h1>
+{% endblock %}
+{% block contenido1 %}
+    <div>
+        <a class="btn btn-primary" href="{% url 'todos_insumos' %}">Lista de insumos</a>
+        <a class ="btn btn-primary" href= "{% url 'lista_prestamo_devolucion_insumo' %}">Lista de prestamo/devolucion</a>
+        
+    </div>
+    
+    <div class="box-formulario">
+            <form action="{% url 'formulario_busqueda_insumo' %}" method="GET">
+                <input type="text" name="nombre_insumo" id="nombre_insumo" placeholder="Nombre del insumo">
+                <input class="btn btn-primary" type="submit" value="Buscar insumo">
+            </form>
+    </div>
+    
+
+    <div class = "tabla_div">
+        <table class="table table-bordered border-primary">
+            <thead>
+            <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Tipo de tipo_movimiento</th>
+                <th scope="col">Herramienta</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">devuelto?</th>
+                <th scope="col">Usuario que devolvio</th>
+                <th scope="col">Usuario que lo tiene</th>
+                <th scope="col"><a href="#">Fecha</a></th>
+                
+                <th scope="col">Devoluciones</th>   
+    
+            </tr>
+            </thead>
+    
+            
+            <tbody>
+                {% for lista_registro_de_prestamos in registros %}
+                <tr>
+                    
+                    <td>{{ lista_registro_de_prestamos.insumo.codigo }}</td> 
+                    <td>{{ lista_registro_de_prestamos.tipo_movimiento }}</td> 
+                    <td><a href="{% url 'detail_insumo' lista_registro_de_prestamos.insumo.id %}">{{ lista_registro_de_prestamos.insumo.nombre }}</a></td> 
+                    <td>{{ lista_registro_de_prestamos.cantidad }} {{ lista_registro_de_prestamos.unidad_medida }}</td> 
+                    <td>{{ lista_registro_de_prestamos.esta_devuelto }}</td> 
+                    <td>{{ lista_registro_de_prestamos.devolucion_recibida }}</td> 
+                    <td>
+                        {{ lista_registro_de_prestamos.prestado_a }}
+                    </td> 
+                    <td>{{ lista_registro_de_prestamos.fecha }}</td> 
+                    
+                    
+                    <td>
+                        {% if lista_registro_de_prestamos.tipo_movimiento == "devolucion" %}
+                            <span class="badge bg-success">Devuelto</span>
+                        {% else %}
+                                {% if lista_registro_de_prestamos.tipo_movimiento == "prestamo" %}
+                                    {% if not lista_registro_de_prestamos.esta_devuelto %}
+                                        <a class="btn btn-info" href="{% url 'devolucion_insumo' lista_registro_de_prestamos.insumo.id %}">Devoluciones</a>
+                                    {% else %}
+                                        <span class="badge bg-success">Devuelto</span>
+                                    {% endif %}
+                                {% endif %}
+                                
+                        {% endif %}
+                        
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        
+        <p>
+            {{ mensaje }}
+            {{ registro }}
+        </p>
+    </div>
+{% endblock contenido1 %}

@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from .models import Insumos
+from .models import Insumos, PrestamoInsumos
 from django.http import HttpResponse
-from AppInsumos.forms import InsumoForm
+from AppInsumos.forms import DevolucionInsumoForm, InsumoForm, PrestamoInsumoForm
 
 
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
@@ -14,6 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin #vistas basadas en cla
 from django.contrib.auth.decorators import login_required #vistas basadas en funciones
 
 from AppUsers.models import Avatar
+from django.utils import timezone
 
 # Create your views here.
 
@@ -71,7 +72,10 @@ def all_insumos(request):
 def busqueda_formulario(request):
     if request.GET['codigo_insumo']:
         codigo_insumo = request.GET['codigo_insumo']
-        insumos_buscado = Insumos.objects.filter(codigo_insumo__icontains = codigo_insumo )
+        insumos_buscado = Insumos.objects.filter(codigo_insumo__icontains = codigo_insumo ) 
+        relacion_de_busqueda  = PrestamoInsumos.objects.filter(insumo__in = insumos_buscado)
+        print(insumos_buscado)
+        print(relacion_de_busqueda)
         if insumos_buscado: 
             return render(request, 'ListaInsumos.html', {'los_insumos':insumos_buscado})
         else:
@@ -107,5 +111,83 @@ class InsumosDetailView(DetailView):
     context_object_name = 'insumos'
 
 # prestamos
-def busqueda_insumo(request):
-    return render(request, "busquedaInsumos.html")
+def prestamo_insumo(request, id):
+    insumos_a_prestar = Insumos.objects.get(id = id)
+    if request.method == 'POST':
+        form_prestamo_insumo= PrestamoInsumoForm(request.POST)
+        if form_prestamo_insumo.is_valid():
+            data_a_editar_insumos = form_prestamo_insumo.cleaned_data
+            
+            insumos_a_prestar.cantidad -= data_a_editar_insumos['cantidad_a_prestar']
+            unidad_medida = data_a_editar_insumos['unidades_de_prestamo']
+            usuario_receptor = data_a_editar_insumos['a_quien_se_presta']
+            
+            insumos_a_prestar.disponible = insumos_a_prestar.cantidad > 0
+            
+            insumos_a_prestar.save()
+            PrestamoInsumos.objects.create(
+                insumo = insumos_a_prestar,
+                tipo_movimiento = 'prestamo',
+                cantidad = data_a_editar_insumos['cantidad_a_prestar'],
+                unidad_medida = unidad_medida,
+                prestado_por = request.user,
+                prestado_a = usuario_receptor,
+                esta_devuelto = False,
+                fecha = timezone.now()
+            )
+        return redirect('todos_insumos')
+    else:
+        form_prestamo_insumo = PrestamoInsumoForm()
+    return render(request, 'prestamo_herramienta.html', {'form':form_prestamo_insumo, 'insumo_a_prestar':insumos_a_prestar})            
+            
+    # return render(request, "busquedaInsumos.html")
+    
+def devolucion_insumos(request, id):
+    insumo_a_devolder = Insumos.objects.get(id = id)
+    relacion_de_devolcion = PrestamoInsumos.objects.filter(insumo = insumo_a_devolder, tipo_movimiento='prestamo', esta_devuelto=False).order_by('fecha').first()
+    
+    if request.method == 'POST':
+        formulario_devolucion = DevolucionInsumoForm(request.POST)
+        if formulario_devolucion.is_valid():
+            data_devolucion = formulario_devolucion.cleaned_data
+            print(data_devolucion)
+            insumo_a_devolder.cantidad += data_devolucion['cantidad_a_devolver']
+            unidad_de_medida = data_devolucion['unidades_de_devolucion']
+            insumo_a_devolder.disponible = insumo_a_devolder.cantidad > 0
+            insumo_a_devolder.save()
+            relacion_de_devolcion.esta_devuelto = True
+            relacion_de_devolcion.devolucion_recibida = request.user
+            relacion_de_devolcion.save()
+            PrestamoInsumos.objects.create(
+                insumo = insumo_a_devolder,
+                tipo_movimiento = 'devolucion',
+                cantidad = data_devolucion['cantidad_a_devolver'],
+                unidad_medida = unidad_de_medida,
+                devolucion_recibida = request.user,
+                esta_devuelto = True,
+                fecha = timezone.now()
+            )
+        return redirect('todos_insumos')
+    else:
+        form_devolucion = DevolucionInsumoForm()
+    return render(request, 'devolucion_insumos.html', {'form':form_devolucion, 'insumo':insumo_a_devolder, 'relacion_insumo':relacion_de_devolcion})
+    
+    pass
+
+class PrestamoInsumosListView(ListView):
+    model = PrestamoInsumos
+    template_name = "ListaPrestamosDevoluciones.html"
+    context_object_name = 'registros'
+    ordering = ['tipo_movimiento']
+# busqueda de insumos prestados
+def busqueda_por_insumo_prestado(request):
+    if request.GET['nombre_insumo']:
+        nombre_insumo = request.GET['nombre_insumo']
+        insumos_buscado = Insumos.objects.filter(nombre__icontains = nombre_insumo )
+        relacion_de_busqeda = PrestamoInsumos.objects.filter(insumo__in = insumos_buscado)
+        if relacion_de_busqeda: 
+            return render(request, 'ListaPrestamosDevoluciones.html', {'registros':relacion_de_busqeda})
+        else:
+            return render(request, 'ListaPrestamosDevoluciones.html', {'mensaje':'Insumo no encontrado'})
+    else:
+        return render(request, 'ListaPrestamosDevoluciones.html', {'mensaje':'Coloca un número...'})

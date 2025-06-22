@@ -1,0 +1,46 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Salida Insumos</h1>
+{% endblock %}
+{% block contenido1 %}
+<a class="btn btn-primary" href="{% url 'todos_insumos' %}">Listado de Insumos</a>
+    <div class="box-formulario">
+        <h2>Salida de: {{ lend_tools.nombre_herramienta }}</h2>
+        <form action="{% url 'prestamo_insumo'  insumo_a_prestar.id %}" method="POST">
+            {% csrf_token %}
+            <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
+            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            <p>Nombre: {{ insumo_a_prestar.nombre }}</p>
+            <p>Disponible: {{ insumo_a_prestar.disponible }}</p>
+            <p>Cantidad en stock: {{ insumo_a_prestar.cantidad }} {{ insumo_a_prestar.unidad_medida }}</p>
+            {{ form.as_p }}
+            
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Aceptar
+            </button>
+              <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Guardar Cambios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    ¿Desea Guardar Cambios?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <input class="btn btn-success" type="submit" value="Actualizar" pla>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+
+        </form>
+    </div>
+{% endblock contenido1 %}

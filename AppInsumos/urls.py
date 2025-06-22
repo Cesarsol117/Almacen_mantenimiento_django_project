@@ -24,12 +24,16 @@ urlpatterns = [
     path('curso/', all_insumos, name='todos_insumos'),
     path('pagina_cursos/', pagina_cursos, name='page_courses'),
     # path('FormularioCursos/', curso_formulario, name='formulario_curso'),
-    path('busquedaInsumos/', busqueda_insumo, name='busqueda_insumo'),
+    # prestamos
+    path('PrestamoInsumos/<id>', prestamo_insumo, name='prestamo_insumo'),
+    path('devolucion_Insumos/<id>', devolucion_insumos, name='devolucion_insumo'),
     path('resultadoBusqeda/', busqueda_formulario, name='formulario_busqueda'),
+    path('resultadoBusqeda_insumo/', busqueda_por_insumo_prestado, name='formulario_busqueda_insumo'),
     # basadas en clases
     path('insumos/crear/', InsumoCreateView.as_view(), name='crear_insumo'),
     path('editarInsumos/editar/<int:pk>/', InsumoUpdate.as_view(), name='update_insumo'),
     path('eliminarInsumos/editar/<int:pk>/', InsumoDelete.as_view(), name='delete_insumo'),
     path('detalleInsumos/detalle/<int:pk>/', InsumosDetailView.as_view(), name='detail_insumo'),
+    path('ListaInsumos/lista/', PrestamoInsumosListView.as_view(), name='lista_prestamo_devolucion_insumo'),
 
 ]

@@ -1,0 +1,51 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block principal %}
+    <h1>Devoulucion insumos</h1>
+{% endblock %}
+{% block contenido1 %}
+<a class ="btn btn-primary" href= "{% url 'lista_prestamo_devolucion_insumo' %}">Atras</a>
+<a class ="btn btn-primary" href= "{% url 'todos_insumos' %}">Todos Los insumos</a>
+    <div class="box-formulario">
+        <h2>Devolver insumos: {{ insumo.nombre }}</h2>
+        <form action="{% url 'devolucion_insumo'  insumo.id %}" method="POST">
+            {% csrf_token %}
+            <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
+            <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->
+            <p>Nombre: {{ insumo.nombre }}</p>
+            
+            <p>Cantidad Sacada: {{ relacion_insumo.cantidad }} {{ relacion_insumo.unidad_medida }}</p>
+
+            <p>Fecha de salida {{ relacion_insumo.fecha }}</p>
+            
+            
+            {{ form.as_p }}
+            
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Devolver
+            </button>
+              <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Guardar Cambios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    ¿Desea Guardar Cambios?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <input class="btn btn-success" type="submit" value="Actualizar" pla>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+
+        </form>
+    </div>
+{% endblock contenido1 %}

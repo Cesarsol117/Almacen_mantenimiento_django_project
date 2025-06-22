@@ -9,6 +9,7 @@
         <div>
             <a class="btn btn-primary" href="{% url 'crear_insumo' %}">Crear Insumo</a>
             <a class="btn btn-primary" href="{% url 'todos_insumos' %}">Listado Insumos</a>
+            <a class="btn btn-primary" href="{% url 'lista_prestamo_devolucion_insumo' %}">Historial de Prestamos</a>
         </div>
         <div class="box-formulario">
             <form action="{% url 'formulario_busqueda' %}" method="GET">
@@ -30,7 +31,7 @@
                 <th scope="col">Insumos</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Disponible</th>
-                <th scope="col">Butons</th>  
+                <th scope="col">stock minimo</th>  
                 <th scope="col">Butons</th>  
     
             </tr>
@@ -46,7 +47,7 @@
                     <td>{{ insumo.cantidad}} {{ insumo.unidad_medida }}</td> 
                     <td>{{ insumo.disponible}}</td> 
                     <td>{{ insumo.stock_minimo}}</td>
-                    <td><a class ="btn btn-info" href= "{% url 'update_insumo' insumo.id %}">Prestamo</a></td>
+                    <td><a class ="btn btn-info" href= "{% url 'prestamo_insumo' insumo.id %}">Prestamo</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

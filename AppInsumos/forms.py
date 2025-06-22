@@ -20,3 +20,13 @@ class InsumoForm(forms.ModelForm):
         widgets = {
             'notas_insumo': forms.Textarea(attrs={'rows': 4}),
         }
+
+class PrestamoInsumoForm(forms.Form):
+    cantidad_a_prestar = forms.IntegerField(min_value=0, label='cantidad')
+    unidades_de_prestamo = forms.ChoiceField(choices=PrestamoInsumos.TIPO_MEDIDAS_CHOICES, required=False, label='Unidad de Medida')
+    a_quien_se_presta = forms.ModelChoiceField(queryset=User.objects.all(),label='usuarios')
+    
+class DevolucionInsumoForm(forms.Form):
+    cantidad_a_devolver = forms.IntegerField(min_value=0, label='cantidad a devolver')
+    unidades_de_devolucion = forms.ChoiceField(choices=PrestamoInsumos.TIPO_MEDIDAS_CHOICES, required=False, label='Unidad de Medida')
+    

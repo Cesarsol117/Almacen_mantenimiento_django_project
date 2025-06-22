@@ -9,7 +9,8 @@ class Insumos(models.Model):
     TIPO_MEDIDAS_CHOICES = [
         ('g', 'Gramos'),
         ('m', 'Metros'),
-        ('und', 'Unidades')
+        ('und', 'Unidades'),
+        ('L', 'litros')
     ]
     nombre = models.CharField(max_length = 50, )
     codigo_insumo = models.CharField(unique=True, max_length=20 )
@@ -31,10 +32,17 @@ class PrestamoInsumos(models.Model):
         ('prestamo', 'Préstamo'),
         ('devolucion', 'Devolución')
     ]
+    TIPO_MEDIDAS_CHOICES = [
+        ('g', 'Gramos'),
+        ('m', 'Metros'),
+        ('und', 'Unidades'),
+        ('L', 'Litros')
+    ]
 
     insumo = models.ForeignKey(Insumos, on_delete=models.CASCADE)
     tipo_movimiento = models.CharField(max_length=20, choices=MOVIMIENTO_CHOICES)
     cantidad = models.PositiveIntegerField(validators=[MinValueValidator(0)])
+    unidad_medida = models.CharField(choices=TIPO_MEDIDAS_CHOICES, max_length=50, default=None )
     prestado_por = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='el_que_presta',null=True)
     prestado_a = models.ForeignKey(User, on_delete=models.SET_NULL,  related_name='el_que_recibe',null=True)
     devolucion_recibida = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='el_que_devuelve',null=True)

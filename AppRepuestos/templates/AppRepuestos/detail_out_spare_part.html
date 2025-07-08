@@ -2,10 +2,11 @@
 {% load static %}
 
 {% block principal %}
-    <h1>Repuestos</h1>
+    <h1>Salida de Repuestos</h1>
 {% endblock %}
 {% block contenido1 %}
     <div>
+        
         <a class ="btn btn-success" href= "{% url 'spare_parts_add' %}">Añadir Repuesto</a>
         <a class ="btn btn-primary" href= "{% url 'detail_in_spare_parts' %}">Entradas de Repuesto</a>
         <a class ="btn btn-primary" href= "{% url 'detail_salida_spare_parts' %}">Salidas de Repuesto</a>
@@ -57,21 +58,27 @@
                     </td> 
                     <td>{{ list_out_spare_part.entregado_a }}</td> 
                     <td>{{ list_out_spare_part.prestado_por }}/{{ list_out_spare_part.devolucion_por }}</td> 
-                    <td>{{ list_out_spare_part.se_uso }}</td> 
+                    <td>{{ list_out_spare_part.se_uso }} / {{ list_out_spare_part.devuelto }}</td> 
 
                     <td>{{ list_out_spare_part.date_to_movent }}</td> 
                     
                     
                     <td>
-                        {% if list_out_spare_part.tipo_movimiento == "entrada" or list_out_spare_part.tipo_movimiento == "devoluciones" %}
-                                <p>No disponible</p>
-                        {% else %}
-                            <div>
-                                <a class ="btn btn-success" href= "{% url 'devolucion_spare_parts' list_out_spare_part.spare_part_relation.id %}">Utilizado</a>
-                                <a class ="btn btn-info" href= "{% url 'devolucion_spare_parts' list_out_spare_part.spare_part_relation.id %}">Devoluciones</a>
-                            </div>
-                        {% endif %}
-                        
+                        {% if list_out_spare_part.tipo_movimiento %}
+                            {% if not list_out_spare_part.devuelto  and not list_out_spare_part.se_uso %}
+                                    
+                                <div>
+                                    <a class ="btn btn-success" href= "{% url 'usado_spare_parts' list_out_spare_part.spare_part_relation.id %}">Utilizado</a>
+                                    <a class ="btn btn-info" href= "{% url 'devolucion_spare_parts' list_out_spare_part.spare_part_relation.id %}">Devolver</a>
+                                </div>
+                            {% elif list_out_spare_part.devuelto %}
+                                <span class="badge bg-success">Devuelto</span>
+                            {% elif list_out_spare_part.se_uso %}
+                                <span class="badge bg-primary">Usado</span>
+                            {% endif %}
+
+                          
+                        {% endif %} 
                         
                     </td>
                 </tr>

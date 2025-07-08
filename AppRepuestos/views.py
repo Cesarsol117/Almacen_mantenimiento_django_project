@@ -131,6 +131,7 @@ def out_spare_parts(request, id_part):
             out_spare_part.quantity -= data_form_out_spare_part['quantity']
             out_spare_part.date_to_out       = timezone.now()
             maquinas = data_form_out_spare_part['machines']
+            usuario_que_recibe = data_form_out_spare_part['a_quien_se_entrega']
             
             if out_spare_part.quantity == 0:
                 out_spare_part.available = False
@@ -147,6 +148,8 @@ def out_spare_parts(request, id_part):
                 cantidad = data_form_out_spare_part['quantity'],
                 date_to_movent = out_spare_part.date_to_out,
                 spare_part_relation = out_spare_part,
+                entregado_a = usuario_que_recibe,
+                prestado_por = request.user,
             )
             registro_de_salida.machine_relation.set(maquinas)
             registro_de_salida.save()
@@ -184,11 +187,19 @@ def return_spare_part(request, id_ret):
                 tipo_movimiento = 'devoluciones',
                 cantidad = data_dev_spare_part['quantity'],
                 date_to_movent = spare_part_devolucion.date_to_register,
-                spare_part_relation = spare_part_devolucion,    
+                spare_part_relation = spare_part_devolucion,
+                devolucion_por = request.user,
+                devuelto = True,
+                se_uso = False,    
             )
             
             registro_de_devoluciones.machine_relation.set(maquina)
             registro_de_devoluciones.save()
+            if registro_salida:
+                registro_salida.devuelto = True
+                registro_salida.se_uso = False
+                registro_salida.devolucion_por = request.user
+                registro_salida.save()
             return redirect('spare_parts_list')
     else:
         spare_part_dev_form = DevolucionesRepuestosForm(initial={
@@ -198,15 +209,46 @@ def return_spare_part(request, id_ret):
             
         )    
     return render(request, "AppRepuestos/devoluciones_spare_part.html", {'form':spare_part_dev_form, 'spare_part':spare_part_devolucion, 'spare_relation':registro_salida})  
-
+# usado
+def repuesto_usado(request, id):
+    spare_part_devolucion =  Repuestos.objects.get(id = id)
+    registro_usado = RegistroEntradasSalidas.objects.filter(spare_part_relation=spare_part_devolucion, tipo_movimiento = 'salida').order_by('-date_to_movent').first()
+    print(registro_usado)
+    if registro_usado:
+        registro_usado.devuelto = False
+        registro_usado.se_uso = True
+        registro_usado.save()
+        print(registro_usado.se_uso)
+    return redirect('detail_salida_spare_parts')
+    
 
 # detalle de registro de repuestos
-class RegistroEntradasSalidasListlView(ListView):
+class RegistroEntradasSalidasListView(ListView):
     model = RegistroEntradasSalidas
     template_name = "AppRepuestos/detail_register_out.html"
     context_object_name = 'register'
     ordering = ["tipo_movimiento"]
 
+class RegistroEntradasListView(ListView):
+    model = RegistroEntradasSalidas
+    template_name = "AppRepuestos/detail_in_spare_part.html"
+    context_object_name = 'register'
+    def get_queryset(self):
+        return RegistroEntradasSalidas.objects.filter(tipo_movimiento = 'entrada').order_by('date_to_movent')
+
+class RegistroSalidasListView(ListView):
+    model = RegistroEntradasSalidas
+    template_name = "AppRepuestos/detail_out_spare_part.html"
+    context_object_name = 'register'
+    def get_queryset(self):
+        return RegistroEntradasSalidas.objects.filter(tipo_movimiento = 'salida').order_by('date_to_movent')
+
+class RegistroDevoluionesListView(ListView):
+    model = RegistroEntradasSalidas
+    template_name = "AppRepuestos/detail_return_spare_part.html"
+    context_object_name = 'register'
+    def get_queryset(self):
+        return RegistroEntradasSalidas.objects.filter(tipo_movimiento = 'devoluciones').order_by('date_to_movent')
 
 # detalle de los repuestps
 class SparePartDetailView(DetailView):

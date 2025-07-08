@@ -15,12 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from AppRepuestos.views import RepuestosListView, SparePartDetailView, RegistroEntradasSalidasListlView,search_for_spare_parts , delete_spare_part,create_spare_parts, update_spare_parts, ingreso_spare_parts, out_spare_parts, return_spare_part
+from AppRepuestos.views import repuesto_usado, RegistroDevoluionesListView, RegistroSalidasListView, RegistroEntradasListView, RepuestosListView, SparePartDetailView, RegistroEntradasSalidasListView,search_for_spare_parts , delete_spare_part,create_spare_parts, update_spare_parts, ingreso_spare_parts, out_spare_parts, return_spare_part
 
 urlpatterns = [ 
     # Login Log out Register
     path('list_spare_part/', RepuestosListView.as_view(), name='spare_parts_list'),
-    path('detail_out_spare_part/', RegistroEntradasSalidasListlView.as_view(), name='detail_register_spare_parts'),
+    path('detail_out_spare_part/', RegistroEntradasSalidasListView.as_view(), name='detail_register_spare_parts'),
+    path('detail_in_spare_part/', RegistroEntradasListView.as_view(), name='detail_in_spare_parts'),
+    path('detail_salida_spare_part/', RegistroSalidasListView.as_view(), name='detail_salida_spare_parts'),
+    path('detail_return_spare_part/', RegistroDevoluionesListView.as_view(), name='detail_return_spare_parts'),
     path('detail_spare_part/detalle/<int:pk>/', SparePartDetailView.as_view(), name='spare_parts_detail'),
     # path('add_spare_part/', RepuestosCreateView.as_view(), name='spare_parts_add'),
     # path('update-spare-part//editar/<int:pk>', RepuestosUpdateView.as_view(), name='spare_parts_update'),
@@ -31,4 +34,5 @@ urlpatterns = [
     path("search_spare_part/", search_for_spare_parts, name="search_parts_update"),
     path("out_spare_part/<id_part>", out_spare_parts, name="out_spare_parts"),
     path("devolucion_spare_part/<id_ret>", return_spare_part, name="devolucion_spare_parts"),
+    path("usado_spare_part/<id>", repuesto_usado, name="usado_spare_parts"),
 ]

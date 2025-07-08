@@ -1,5 +1,5 @@
 from django import forms
-
+from django.contrib.auth.models import User
 from AppMaquinas.models import Machine
 from .models import Repuestos
 
@@ -20,7 +20,7 @@ class RepuestoIngresoReturnForm(forms.Form):
     
     quantity = forms.IntegerField(min_value=0, label='Cantidad', initial='',)
     machines = forms.ModelMultipleChoiceField(queryset=Machine.objects.all(), label='Máquinas Asociadas')
-    
+    a_quien_se_entrega = forms.ModelChoiceField(queryset=User.objects.all(), label='Entregado a')
 class DevolucionesRepuestosForm(forms.Form):
     quantity = forms.IntegerField(min_value=0, label='Cantidad a devolver',)
     machines = forms.ModelMultipleChoiceField(queryset=Machine.objects.all(), label='Máquinas Asociadas')

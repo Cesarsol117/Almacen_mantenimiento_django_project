@@ -9,7 +9,7 @@
 <a class ="btn btn-primary" href= "{% url 'spare_parts_list' %}">Todos Los repuestos</a>
     <div class="box-formulario">
         <h2>Devolver Repuestos: {{ spare_part.name_spare_part }}</h2>
-        <form action="{% url 'devolucion_spare_parts'  spare_part.id %}" method="POST">
+        <form action="{% url 'devolucion_spare_parts'  spare_relation.id %}" method="POST">
             {% csrf_token %}
             <!-- <p>Nombre: <input type="text" name="curso" placeholder="Nombre"> </p>
             <p>comision: <input type="number" name="comision" placeholder="Comision"> </p> -->

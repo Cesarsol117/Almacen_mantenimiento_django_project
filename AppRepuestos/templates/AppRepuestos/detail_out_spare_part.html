@@ -65,11 +65,11 @@
                     
                     <td>
                         {% if list_out_spare_part.tipo_movimiento %}
-                            {% if not list_out_spare_part.devuelto  and not list_out_spare_part.se_uso %}
+                            {% if not list_out_spare_part.devuelto and not list_out_spare_part.se_uso %}
                                     
                                 <div>
-                                    <a class ="btn btn-success" href= "{% url 'usado_spare_parts' list_out_spare_part.spare_part_relation.id %}">Utilizado</a>
-                                    <a class ="btn btn-info" href= "{% url 'devolucion_spare_parts' list_out_spare_part.spare_part_relation.id %}">Devolver</a>
+                                    <a class ="btn btn-success" href= "{% url 'usado_spare_parts' list_out_spare_part.id %}">Utilizado</a>
+                                    <a class ="btn btn-info" href= "{% url 'devolucion_spare_parts' list_out_spare_part.id %}">Devolver</a>
                                 </div>
                             {% elif list_out_spare_part.devuelto %}
                                 <span class="badge bg-success">Devuelto</span>

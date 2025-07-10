@@ -33,6 +33,7 @@ urlpatterns = [
     path("delete_spare_part/<id_part>", delete_spare_part, name="delete_parts_update"),
     path("search_spare_part/", search_for_spare_parts, name="search_parts_update"),
     path("out_spare_part/<id_part>", out_spare_parts, name="out_spare_parts"),
-    path("devolucion_spare_part/<id_ret>", return_spare_part, name="devolucion_spare_parts"),
-    path("usado_spare_part/<id>", repuesto_usado, name="usado_spare_parts"),
+    
+    path("devolucion_spare_part/<int:id_ret>", return_spare_part, name="devolucion_spare_parts"),
+    path("usado_spare_part/<int:id>", repuesto_usado, name="usado_spare_parts"),
 ]

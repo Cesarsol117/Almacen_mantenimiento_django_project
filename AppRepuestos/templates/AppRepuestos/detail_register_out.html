@@ -67,8 +67,8 @@
                                 <p>No disponible</p>
                         {% else %}
                             <div>
-                                <a class ="btn btn-success" href= "{% url 'devolucion_spare_parts' list_out_spare_part.spare_part_relation.id %}">Utilizado</a>
-                                <a class ="btn btn-info" href= "{% url 'devolucion_spare_parts' list_out_spare_part.spare_part_relation.id %}">Devoluciones</a>
+                                <a class ="btn btn-success" href= "{% url 'devolucion_spare_parts' list_out_spare_part.id %}">Utilizado</a>
+                                <a class ="btn btn-info" href= "{% url 'devolucion_spare_parts' list_out_spare_part.id %}">Devoluciones</a>
                             </div>
                         {% endif %}
                         
